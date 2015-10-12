@@ -39,6 +39,12 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"imageCell"];
 }
 
+-(NSArray*)items
+{
+
+    return [DataSource sharedInstance].mediaItems;
+
+}
 
 #pragma mark - Table view data source
 
@@ -47,7 +53,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
-    return [DataSource sharedInstance].mediaItems.count;
+    return [self items].count;
 }
 
 
@@ -75,7 +81,8 @@
         [cell.contentView addSubview:imageView];
     }
     
-    UIImage *image = [DataSource sharedInstance].mediaItems[indexPath.row];
+    UIImage *image = [self items][indexPath.row];
+
     imageView.image = image;
     
     
@@ -84,7 +91,8 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIImage *image = [DataSource sharedInstance].mediaItems[indexPath.row];
+    UIImage *image = [self items][indexPath.row];
+    
     return (CGRectGetWidth(self.view.frame) / image.size.width) * image.size.height;
 }
 
