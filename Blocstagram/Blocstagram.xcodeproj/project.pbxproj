@@ -25,6 +25,10 @@
 		43D58C561BCC34E9002907C7 /* 5.png in Resources */ = {isa = PBXBuildFile; fileRef = 43D58C4B1BCC34E9002907C7 /* 5.png */; settings = {ASSET_TAGS = (); }; };
 		43D58C571BCC34E9002907C7 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 43D58C4C1BCC34E9002907C7 /* 1.png */; settings = {ASSET_TAGS = (); }; };
 		43D58C5A1BCC373C002907C7 /* ImagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D58C591BCC373C002907C7 /* ImagesTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		43D58C5D1BCC5527002907C7 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D58C5C1BCC5527002907C7 /* User.m */; settings = {ASSET_TAGS = (); }; };
+		43D58C601BCC5534002907C7 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D58C5F1BCC5534002907C7 /* Media.m */; settings = {ASSET_TAGS = (); }; };
+		43D58C631BCC5541002907C7 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D58C621BCC5541002907C7 /* Comment.m */; settings = {ASSET_TAGS = (); }; };
+		43D58C661BCC5612002907C7 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D58C651BCC5612002907C7 /* DataSource.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +75,14 @@
 		43D58C4C1BCC34E9002907C7 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
 		43D58C581BCC373C002907C7 /* ImagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesTableViewController.h; path = ../ImagesTableViewController.h; sourceTree = "<group>"; };
 		43D58C591BCC373C002907C7 /* ImagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImagesTableViewController.m; path = ../ImagesTableViewController.m; sourceTree = "<group>"; };
+		43D58C5B1BCC5527002907C7 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		43D58C5C1BCC5527002907C7 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		43D58C5E1BCC5534002907C7 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
+		43D58C5F1BCC5534002907C7 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
+		43D58C611BCC5541002907C7 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		43D58C621BCC5541002907C7 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		43D58C641BCC5612002907C7 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
+		43D58C651BCC5612002907C7 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +142,14 @@
 				43B60DB51BCC3166004FB168 /* LaunchScreen.storyboard */,
 				43B60DB81BCC3166004FB168 /* Info.plist */,
 				43B60DA71BCC3166004FB168 /* Supporting Files */,
+				43D58C5B1BCC5527002907C7 /* User.h */,
+				43D58C5C1BCC5527002907C7 /* User.m */,
+				43D58C5E1BCC5534002907C7 /* Media.h */,
+				43D58C5F1BCC5534002907C7 /* Media.m */,
+				43D58C611BCC5541002907C7 /* Comment.h */,
+				43D58C621BCC5541002907C7 /* Comment.m */,
+				43D58C641BCC5612002907C7 /* DataSource.h */,
+				43D58C651BCC5612002907C7 /* DataSource.m */,
 			);
 			path = Blocstagram;
 			sourceTree = "<group>";
@@ -318,7 +338,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43D58C5D1BCC5527002907C7 /* User.m in Sources */,
+				43D58C631BCC5541002907C7 /* Comment.m in Sources */,
+				43D58C601BCC5534002907C7 /* Media.m in Sources */,
 				43B60DAC1BCC3166004FB168 /* AppDelegate.m in Sources */,
+				43D58C661BCC5612002907C7 /* DataSource.m in Sources */,
 				43B60DA91BCC3166004FB168 /* main.m in Sources */,
 				43D58C5A1BCC373C002907C7 /* ImagesTableViewController.m in Sources */,
 			);

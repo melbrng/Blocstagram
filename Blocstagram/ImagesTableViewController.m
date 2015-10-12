@@ -7,10 +7,14 @@
 //
 
 #import "ImagesTableViewController.h"
+#import "DataSource.h"
+#import "Media.h"
+#import "User.h"
+#import "Comment.h"
 
 @interface ImagesTableViewController ()
 
-@property (nonatomic, strong) NSMutableArray *images;
+//@property (nonatomic, strong) NSMutableArray *images;
 
 @end
 
@@ -22,46 +26,34 @@
     
     if (self)
     {
-        self.images = [[NSMutableArray alloc]init];
+
     }
     
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
-    for (int i = 1; i <= 10; i++)
-    {
-        
-        NSString *imageName = [NSString stringWithFormat:@"%d.png", i];
-        UIImage *image = [UIImage imageNamed:imageName];
-        
-        if (image)
-        {
-            [self.images addObject:image];
-        }
-    }
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"imageCell"];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - Table view data source
 
 //Will go with default number of sections = 1
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
 
-    return self.images.count;
+    return [DataSource sharedInstance].mediaItems.count;
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"imageCell" forIndexPath:indexPath];
     
     //create imageView with tag
@@ -69,7 +61,6 @@
     
     UIImageView *imageView = (UIImageView*)[cell.contentView viewWithTag:imageViewTag];
     
-    // #3
     if (!imageView)
     {
         // This is a new cell, it doesn't have an image view yet
@@ -84,7 +75,7 @@
         [cell.contentView addSubview:imageView];
     }
     
-    UIImage *image = self.images[indexPath.row];
+    UIImage *image = [DataSource sharedInstance].mediaItems[indexPath.row];
     imageView.image = image;
     
     
@@ -93,34 +84,34 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIImage *image = self.images[indexPath.row];
+    UIImage *image = [DataSource sharedInstance].mediaItems[indexPath.row];
     return (CGRectGetWidth(self.view.frame) / image.size.width) * image.size.height;
 }
 
 
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    return YES;
-}
-
-
-// Allow deletions
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        
-         // Delete the row from the data source
-        [self.images removeObjectAtIndex:indexPath.row];
-        
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-
-    }
-    
-    [self.tableView reloadData];
-    
-}
+//
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    return YES;
+//}
+//
+//
+//// Allow deletions
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (editingStyle == UITableViewCellEditingStyleDelete)
+//    {
+//        
+//         // Delete the row from the data source
+//        [self.images removeObjectAtIndex:indexPath.row];
+//        
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//
+//    }
+//    
+//    [self.tableView reloadData];
+//    
+//}
 
 
 /*
