@@ -81,18 +81,16 @@
         [cell.contentView addSubview:imageView];
     }
     
-    UIImage *image = [self items][indexPath.row];
-
-    imageView.image = image;
-    
+    Media *item = [self items][indexPath.row];
+    imageView.image = item.image;
     
     return cell;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIImage *image = [self items][indexPath.row];
-    
+    Media *item = [self items][indexPath.row];
+    UIImage *image = item.image;
     return (CGRectGetWidth(self.view.frame) / image.size.width) * image.size.height;
 }
 
