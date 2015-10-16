@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43894FB71BD1705D00DB9771 /* MediaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43894FB61BD1705D00DB9771 /* MediaTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		43B60DA91BCC3166004FB168 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B60DA81BCC3166004FB168 /* main.m */; };
 		43B60DAC1BCC3166004FB168 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B60DAB1BCC3166004FB168 /* AppDelegate.m */; };
 		43B60DB41BCC3166004FB168 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43B60DB31BCC3166004FB168 /* Assets.xcassets */; };
@@ -49,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		43894FB51BD1705D00DB9771 /* MediaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaTableViewCell.h; sourceTree = "<group>"; };
+		43894FB61BD1705D00DB9771 /* MediaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaTableViewCell.m; sourceTree = "<group>"; };
 		43B60DA41BCC3166004FB168 /* Blocstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blocstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43B60DA81BCC3166004FB168 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		43B60DAA1BCC3166004FB168 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -150,6 +153,8 @@
 				43D58C621BCC5541002907C7 /* Comment.m */,
 				43D58C641BCC5612002907C7 /* DataSource.h */,
 				43D58C651BCC5612002907C7 /* DataSource.m */,
+				43894FB51BD1705D00DB9771 /* MediaTableViewCell.h */,
+				43894FB61BD1705D00DB9771 /* MediaTableViewCell.m */,
 			);
 			path = Blocstagram;
 			sourceTree = "<group>";
@@ -340,6 +345,7 @@
 			files = (
 				43D58C5D1BCC5527002907C7 /* User.m in Sources */,
 				43D58C631BCC5541002907C7 /* Comment.m in Sources */,
+				43894FB71BD1705D00DB9771 /* MediaTableViewCell.m in Sources */,
 				43D58C601BCC5534002907C7 /* Media.m in Sources */,
 				43B60DAC1BCC3166004FB168 /* AppDelegate.m in Sources */,
 				43D58C661BCC5612002907C7 /* DataSource.m in Sources */,
