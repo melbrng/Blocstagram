@@ -101,16 +101,16 @@ static NSNumber *kernValue;
 
 - (NSAttributedString *) usernameAndCaptionString
 {
-    // #1
-    CGFloat usernameFontSize = 15;
     
-    // #2 - Make a string that says "username caption"
+    CGFloat usernameFontSize = 15;
+
+    // Make a string that says "username caption"
     NSString *baseString = [NSString stringWithFormat:@"%@ %@", self.mediaItem.user.userName, self.mediaItem.caption];
     
-    // #3 - Make an attributed string, with the "username" bold
+    // Make an attributed string, with the "username" bold
     NSMutableAttributedString *mutableUsernameAndCaptionString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSFontAttributeName : [lightFont fontWithSize:usernameFontSize], NSParagraphStyleAttributeName : paragraphStyle}];
     
-    // #4 userame to be..
+    // get the range of the username and caption
     NSRange usernameRange = [baseString rangeOfString:self.mediaItem.user.userName];
     
     NSRange captionRange = [baseString rangeOfString:self.mediaItem.caption];
@@ -121,7 +121,7 @@ static NSNumber *kernValue;
     //and purple the username
     [mutableUsernameAndCaptionString addAttribute:NSForegroundColorAttributeName value:linkColor range:usernameRange];
     
-    //and purple the username
+    //and set the kern(space between letters)
     [mutableUsernameAndCaptionString addAttribute:NSKernAttributeName value:kernValue range:captionRange];
     
     return mutableUsernameAndCaptionString;
@@ -191,8 +191,15 @@ static NSNumber *kernValue;
 {
     [super layoutSubviews];
     
-//    CGFloat imageHeight = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
-    self.mediaImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.contentView.bounds), 300.0f);
+    //check to make sure you have a mediaItem to calculate the imageHeight
+    if (self.mediaItem != nil)
+    {
+    
+        CGFloat imageHeight = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
+        self.mediaImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.contentView.bounds), imageHeight);
+    
+    }
+
     
     CGSize sizeOfUsernameAndCaptionLabel = [self sizeOfString:self.usernameAndCaptionLabel.attributedText];
     self.usernameAndCaptionLabel.frame = CGRectMake(0, CGRectGetMaxY(self.mediaImageView.frame), CGRectGetWidth(self.contentView.bounds), sizeOfUsernameAndCaptionLabel.height);

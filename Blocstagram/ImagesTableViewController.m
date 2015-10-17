@@ -49,7 +49,6 @@
 
 #pragma mark - Table view data source
 
-//Will go with default number of sections = 1
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -71,9 +70,7 @@
 {
 
     Media *item = [self items][indexPath.row];
-    //UIImage *image = item.image;
 
-   // return 300 + (image.size.height / image.size.width * CGRectGetWidth(self.view.frame));
     return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
 
 }
