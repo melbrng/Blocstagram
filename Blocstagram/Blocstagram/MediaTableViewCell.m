@@ -61,11 +61,10 @@ static NSNumber *kernValue;
         
         NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel);
         
-     //   [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mediaImageView]|" options:kNilOptions metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_usernameAndCaptionLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
         
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_mediaImageView(==100)]" options:kNilOptions metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-25-[_mediaImageView(==100)]" options:kNilOptions metrics:nil views:viewDictionary]];
         
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_mediaImageView(==100)]" options:kNilOptions metrics:nil views:viewDictionary]];
         
@@ -74,16 +73,6 @@ static NSNumber *kernValue;
                                                                                  metrics:nil
                                                                                    views:viewDictionary]];
         
-//        self.imageHeightConstraint = [NSLayoutConstraint constraintWithItem:_mediaImageView
-//                                                                  attribute:NSLayoutAttributeHeight
-//                                                                  relatedBy:NSLayoutRelationEqual
-//                                                                     toItem:nil
-//                                                                  attribute:NSLayoutAttributeNotAnAttribute
-//                                                                 multiplier:1
-//                                                                   constant:100];
-//        self.imageHeightConstraint.identifier = @"Image height constraint";
-//        
-//        
         self.usernameAndCaptionLabelHeightConstraint = [NSLayoutConstraint constraintWithItem:_usernameAndCaptionLabel
                                                                                     attribute:NSLayoutAttributeHeight
                                                                                     relatedBy:NSLayoutRelationEqual
@@ -262,6 +251,8 @@ static NSNumber *kernValue;
     
     layoutCell.frame = CGRectMake(0, 0, CGRectGetWidth(layoutCell.frame), CGRectGetHeight(layoutCell.frame));
     
+    //must set the media item otherwise you get sandwich'd views
+    layoutCell.mediaItem = mediaItem;
     [layoutCell setNeedsLayout];
     [layoutCell layoutIfNeeded];
     
