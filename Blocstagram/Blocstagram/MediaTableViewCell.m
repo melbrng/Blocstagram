@@ -18,7 +18,6 @@
 @property (nonatomic, strong) UILabel *commentLabel;
 
 @property (nonatomic, strong) NSLayoutConstraint *imageHeightConstraint;
-//@property (nonatomic, strong) NSLayoutConstraint *imageWidthConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *usernameAndCaptionLabelHeightConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *commentLabelHeightConstraint;
 
@@ -258,7 +257,7 @@ static NSNumber *kernValue;
     
     layoutCell.frame = CGRectMake(0, 0, CGRectGetWidth(layoutCell.frame), CGRectGetHeight(layoutCell.frame));
     
-    // The height will be wherever the bottom of the comments label is
+    layoutCell.mediaItem = mediaItem;
     [layoutCell setNeedsLayout];
     [layoutCell layoutIfNeeded];
     
