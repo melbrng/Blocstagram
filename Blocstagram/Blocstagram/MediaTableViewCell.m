@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UILabel *commentLabel;
 
 @property (nonatomic, strong) NSLayoutConstraint *imageHeightConstraint;
+//@property (nonatomic, strong) NSLayoutConstraint *imageWidthConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *usernameAndCaptionLabelHeightConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *commentLabelHeightConstraint;
 
@@ -77,6 +78,7 @@ static NSNumber *kernValue;
                                                                  multiplier:1
                                                                    constant:100];
         self.imageHeightConstraint.identifier = @"Image height constraint";
+        
         
         self.usernameAndCaptionLabelHeightConstraint = [NSLayoutConstraint constraintWithItem:_usernameAndCaptionLabel
                                                                                     attribute:NSLayoutAttributeHeight
@@ -223,14 +225,7 @@ static NSNumber *kernValue;
     return commentString;
 }
 
-//- (CGSize) sizeOfString:(NSAttributedString *)string
-//{
-//    CGSize maxSize = CGSizeMake(CGRectGetWidth(self.contentView.bounds) - 40, 0.0);
-//    CGRect sizeRect = [string boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
-//    sizeRect.size.height += 20;
-//    sizeRect = CGRectIntegral(sizeRect);
-//    return sizeRect.size;
-//}
+
 
 #pragma mark Layout the Subviews
 
@@ -249,6 +244,7 @@ static NSNumber *kernValue;
     if (self.mediaItem != nil)
     {
         self.imageHeightConstraint.constant = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
+
     
     }
     // Hide the line between cells
@@ -260,7 +256,7 @@ static NSNumber *kernValue;
     // Make a cell
     MediaTableViewCell *layoutCell = [[MediaTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"layoutCell"];
     
-    layoutCell.frame = CGRectMake(0, 0, width, CGRectGetHeight(layoutCell.frame));
+    layoutCell.frame = CGRectMake(0, 0, CGRectGetWidth(layoutCell.frame), CGRectGetHeight(layoutCell.frame));
     
     // The height will be wherever the bottom of the comments label is
     [layoutCell setNeedsLayout];
