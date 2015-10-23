@@ -156,7 +156,11 @@
     {
         // Delete the row from the data source
         Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
+        
+        //remove the original
         [[DataSource sharedInstance] deleteMediaItem:item];
+        //place it first in line
+        [[DataSource sharedInstance] insertMediaItem:item];
     }
 }
 
