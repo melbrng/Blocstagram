@@ -40,6 +40,11 @@
     //create observer for KVO
     [[DataSource sharedInstance] addObserver:self forKeyPath:@"mediaItems" options:0 context:nil];
     
+    //property of tableviewcontroller
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshControlDidFire:) forControlEvents:UIControlEventValueChanged];
+
+
     [self.tableView registerClass:[MediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
 }
 
@@ -47,6 +52,39 @@
 - (void) dealloc
 {
     [[DataSource sharedInstance] removeObserver:self forKeyPath:@"mediaItems"];
+}
+
+
+#pragma mark - Completion handler
+
+- (void) refreshControlDidFire:(UIRefreshControl *) sender
+{
+    [[DataSource sharedInstance] requestNewItemsWithCompletionHandler:^(NSError *error){
+        
+        [sender endRefreshing];
+        
+    }];
+}
+
+- (void) infiniteScrollIfNecessary
+{
+    // has scrolled to last photo?
+    NSIndexPath *bottomIndexPath = [[self.tableView indexPathsForVisibleRows] lastObject];
+    
+    if (bottomIndexPath && bottomIndexPath.row == [DataSource sharedInstance].mediaItems.count - 1)
+    {
+        // The very last cell is on screen so call completion handler to request more photos
+        [[DataSource sharedInstance] requestOldItemsWithCompletionHandler:nil];
+    }
+}
+
+#pragma mark - UIScrollViewDelegate
+
+//uitableview is a child of uiscrollview
+//method is called repeatedly so check to see if last image in the array has made it onto the screen
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self infiniteScrollIfNecessary];
 }
 
 
