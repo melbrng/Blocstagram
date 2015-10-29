@@ -103,6 +103,18 @@ static NSNumber *kernValue;
     return self;
 }
 
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    [super setHighlighted:NO animated:animated];
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:NO animated:animated];
+    
+    // Configure the view for the selected state
+}
+
 - (void) setMediaItem:(Media *)mediaItem
 {
     _mediaItem = mediaItem;
@@ -142,7 +154,7 @@ static NSNumber *kernValue;
     alignmentParagraphStyle.alignment = NSTextAlignmentRight;
     rightAlignParagraphStyle = alignmentParagraphStyle;
     
-    kernValue = [NSNumber numberWithFloat:13.0];
+    kernValue = [NSNumber numberWithFloat:3.0];
 }
 
 #pragma mark Attributed Strings

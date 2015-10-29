@@ -33,7 +33,7 @@
     
     [navVC setViewControllers:@[loginVC] animated:YES];
     
-    //start app within login view controller a nd switch to images table controller once an access token is obtained
+    //start app within login view controller and switch to images table controller once an access token is obtained
     [[NSNotificationCenter defaultCenter] addObserverForName:LoginViewControllerDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         
         ImagesTableViewController *imagesVC = [[ImagesTableViewController alloc] init];
