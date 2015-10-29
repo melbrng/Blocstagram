@@ -11,6 +11,7 @@
 #import "Media.h"
 #import "Comment.h"
 #import "LoginViewController.h"
+#import <UICKeyChainStore.h>
 
 @interface DataSource () {
     NSMutableArray *_mediaItems;
@@ -57,7 +58,45 @@
     
     if (self)
     {
-        [self registerForAccessTokenNotification];
+        self.accessToken = [UICKeyChainStore stringForKey:@"access token"];
+        
+        if (!self.accessToken)
+        {
+            [self registerForAccessTokenNotification];
+        }
+        else
+        {
+            //read from saved file
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                NSString *fullPath = [self pathForFilename:NSStringFromSelector(@selector(mediaItems))];
+                NSArray *storedMediaItems = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    if (storedMediaItems.count > 0)
+                    {
+                        NSMutableArray *mutableMediaItems = [storedMediaItems mutableCopy];
+                        
+                        [self willChangeValueForKey:@"mediaItems"];
+                        self.mediaItems = mutableMediaItems;
+                        [self didChangeValueForKey:@"mediaItems"];
+                        
+                        //Re download images with a nil image
+                        for (Media* mediaItem in self.mediaItems) {
+                            [self downloadImageForMediaItem:mediaItem];
+                        }
+                        
+                       // [self requestNewItemsWithCompletionHandler:nil];
+                        
+                    }
+                    else
+                    {
+                        [self populateDataWithParameters:nil completionHandler:nil];
+                    }
+                });
+            });
+        }
     }
     
     return self;
@@ -74,6 +113,7 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:LoginViewControllerDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note){
         
         self.accessToken = note.object;
+        [UICKeyChainStore setString:self.accessToken forKey:@"access token"];
         
         // Got a token; populate the initial data
         [self populateDataWithParameters:nil completionHandler:nil];
@@ -161,6 +201,7 @@
                 // for example, if dictionary contains {count: 50}, append `&count=50` to the URL
                 [urlString appendFormat:@"&%@=%@", parameterName, parameters[parameterName]];
             }
+            
             
             NSURL *url = [NSURL URLWithString:urlString];
             
@@ -267,6 +308,38 @@
         self.mediaItems = tmpMediaItems;
         [self didChangeValueForKey:@"mediaItems"];
     }
+    
+    //save images when a download completes
+    [self saveImages];
+}
+
+
+- (void) saveImages {
+    
+    if (self.mediaItems.count > 0) {
+        
+        // Write the changes to disk on background
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            NSUInteger numberOfItemsToSave = MIN(self.mediaItems.count, 50);
+            NSArray *mediaItemsToSave = [self.mediaItems subarrayWithRange:NSMakeRange(0, numberOfItemsToSave)];
+            
+            NSString *fullPath = [self pathForFilename:NSStringFromSelector(@selector(mediaItems))];
+            NSData *mediaItemData = [NSKeyedArchiver archivedDataWithRootObject:mediaItemsToSave];
+            
+            NSError *dataError;
+            
+//          NSDataWritingAtomic ensures a complete file is saved. Without it, we might corrupt our file if the app crashes while writing to disk.
+//          NSDataWritingFileProtectionCompleteUnlessOpen encrypts the data. This helps protect the user's privacy.
+            
+            BOOL wroteSuccessfully = [mediaItemData writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
+            
+            if (!wroteSuccessfully) {
+                NSLog(@"Couldn't write file: %@", dataError);
+            }
+        });
+        
+    }
 }
 
 - (void) downloadImageForMediaItem:(Media *)mediaItem
@@ -331,6 +404,17 @@
     [_mediaItems replaceObjectAtIndex:index withObject:object];
 }
 
+
+#pragma mark NSKeyedArchiver
+
+//create full path to a file given a filename
+- (NSString *) pathForFilename:(NSString *) filename
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths firstObject];
+    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:filename];
+    return dataPath;
+}
 
 
 @end
