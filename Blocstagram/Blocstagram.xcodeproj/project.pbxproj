@@ -15,6 +15,7 @@
 		43B60DC21BCC3166004FB168 /* BlocstagramTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B60DC11BCC3166004FB168 /* BlocstagramTests.m */; };
 		43B60DCD1BCC3166004FB168 /* BlocstagramUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B60DCC1BCC3166004FB168 /* BlocstagramUITests.m */; };
 		43CA63111BDEB5AF008606F1 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CA63101BDEB5AF008606F1 /* LoginViewController.m */; };
+		43CA63141BE2CBDB008606F1 /* MediaFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CA63131BE2CBDB008606F1 /* MediaFullScreenViewController.m */; };
 		43D58C4D1BCC34E9002907C7 /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 43D58C421BCC34E9002907C7 /* 3.png */; };
 		43D58C4E1BCC34E9002907C7 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 43D58C431BCC34E9002907C7 /* 2.png */; };
 		43D58C4F1BCC34E9002907C7 /* 4.png in Resources */ = {isa = PBXBuildFile; fileRef = 43D58C441BCC34E9002907C7 /* 4.png */; };
@@ -70,6 +71,8 @@
 		43B60DCE1BCC3166004FB168 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43CA630F1BDEB5AF008606F1 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../LoginViewController.h; sourceTree = "<group>"; };
 		43CA63101BDEB5AF008606F1 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../LoginViewController.m; sourceTree = "<group>"; };
+		43CA63121BE2CBDB008606F1 /* MediaFullScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaFullScreenViewController.h; path = ../MediaFullScreenViewController.h; sourceTree = "<group>"; };
+		43CA63131BE2CBDB008606F1 /* MediaFullScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaFullScreenViewController.m; path = ../MediaFullScreenViewController.m; sourceTree = "<group>"; };
 		43D58C421BCC34E9002907C7 /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
 		43D58C431BCC34E9002907C7 /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
 		43D58C441BCC34E9002907C7 /* 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4.png; sourceTree = "<group>"; };
@@ -153,6 +156,8 @@
 				43CA63101BDEB5AF008606F1 /* LoginViewController.m */,
 				43D58C581BCC373C002907C7 /* ImagesTableViewController.h */,
 				43D58C591BCC373C002907C7 /* ImagesTableViewController.m */,
+				43CA63121BE2CBDB008606F1 /* MediaFullScreenViewController.h */,
+				43CA63131BE2CBDB008606F1 /* MediaFullScreenViewController.m */,
 				43B60DB31BCC3166004FB168 /* Assets.xcassets */,
 				43B60DB51BCC3166004FB168 /* LaunchScreen.storyboard */,
 				43B60DB81BCC3166004FB168 /* Info.plist */,
@@ -423,6 +428,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43CA63141BE2CBDB008606F1 /* MediaFullScreenViewController.m in Sources */,
 				43D58C5D1BCC5527002907C7 /* User.m in Sources */,
 				43D58C631BCC5541002907C7 /* Comment.m in Sources */,
 				43894FB71BD1705D00DB9771 /* MediaTableViewCell.m in Sources */,
