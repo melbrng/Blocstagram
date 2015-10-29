@@ -87,7 +87,7 @@
                             [self downloadImageForMediaItem:mediaItem];
                         }
                         
-                       // [self requestNewItemsWithCompletionHandler:nil];
+                        [self requestNewItemsWithCompletionHandler:nil];
                         
                     }
                     else
