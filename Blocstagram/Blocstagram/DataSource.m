@@ -164,6 +164,8 @@
             
             NSURL *url = [NSURL URLWithString:urlString];
             
+            NSLog(@"urlString : %@",urlString);
+            
             if (url)
             {
                 NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -171,8 +173,7 @@
                 NSURLResponse *response;
                 NSError *webError;
                 
-                //NSData *responseData = NSURLSessio
-                
+                //re-read write it into memory space, otherwise return response data
                 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&webError];
                 
                 if (responseData)
