@@ -212,8 +212,6 @@
                 NSURLResponse *response;
                 NSError *webError;
                 
-                //NSData *responseData = NSURLSessio
-                
                 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&webError];
                 
                 if (responseData)
@@ -259,7 +257,6 @@
 //create MediaItems from data dictionary (feed dictionary) and load images as they arrive
 - (void) parseDataFromFeedDictionary:(NSDictionary *) feedDictionary fromRequestWithParameters:(NSDictionary *)parameters
 {
-    NSLog(@"%@", feedDictionary);
     
     NSArray *mediaArray = feedDictionary[@"data"];
     

@@ -170,17 +170,10 @@
 
 -(void) shareButtonPressed: (UIButton *)button
 {
-    NSMutableArray *itemsToShare = [NSMutableArray array];
-
-    if (self.media.caption.length > 0) {
-        [itemsToShare addObject:self.media.caption];
-    }
+    NSMutableArray *itemsToShare = self.media.itemsToShare;
     
-    if (self.media.image) {
-        [itemsToShare addObject:self.media.image];
-    }
-    
-    if (itemsToShare.count > 0) {
+    if (itemsToShare.count > 0)
+    {
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
         [self presentViewController:activityVC animated:YES completion:nil];
     }

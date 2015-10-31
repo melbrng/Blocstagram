@@ -222,15 +222,7 @@
 
 - (void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView
 {
-    NSMutableArray *itemsToShare = [NSMutableArray array];
-    
-    if (cell.mediaItem.caption.length > 0) {
-        [itemsToShare addObject:cell.mediaItem.caption];
-    }
-    
-    if (cell.mediaItem.image) {
-        [itemsToShare addObject:cell.mediaItem.image];
-    }
+    NSMutableArray *itemsToShare = cell.mediaItem.itemsToShare;
     
     if (itemsToShare.count > 0) {
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
