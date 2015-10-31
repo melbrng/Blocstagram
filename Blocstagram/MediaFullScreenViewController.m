@@ -68,6 +68,7 @@
     [self.scrollView addGestureRecognizer:self.doubleTap];
     
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [shareButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [shareButton setTitle:@"Share" forState:UIControlStateNormal];
     [shareButton sizeToFit];
     [self.view addSubview:shareButton];
