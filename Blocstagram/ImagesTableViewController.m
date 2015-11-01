@@ -214,10 +214,16 @@
 
 #pragma mark - MediaTableViewCellDelegate
 
-- (void) cell:(MediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView {
+- (void) cell:(MediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView
+{
     MediaFullScreenViewController *fullScreenVC = [[MediaFullScreenViewController alloc] initWithMedia:cell.mediaItem];
     
     [self presentViewController:fullScreenVC animated:YES completion:nil];
+}
+
+- (void) cell:(MediaTableViewCell *)cell didDoubleTouchImageView:(UIImageView *)imageView
+{
+    [[DataSource sharedInstance] downloadImageForMediaItem:cell.mediaItem];
 }
 
 - (void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView

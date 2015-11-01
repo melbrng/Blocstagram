@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSLayoutConstraint *commentLabelHeightConstraint;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *reloadImageTapGestureRecognizer;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGestureRecognizer;
 
 
@@ -52,6 +53,11 @@ static NSNumber *kernValue;
         self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
         self.tapGestureRecognizer.delegate = self;
         [self.mediaImageView addGestureRecognizer:self.tapGestureRecognizer];
+        
+        self.reloadImageTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTouchPressed:)];
+        self.reloadImageTapGestureRecognizer.delegate = self;
+        [self.reloadImageTapGestureRecognizer setNumberOfTouchesRequired:2];
+        [self.mediaImageView addGestureRecognizer:self.reloadImageTapGestureRecognizer];
         
         self.longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
         self.longPressGestureRecognizer.delegate = self;
@@ -293,7 +299,7 @@ static NSNumber *kernValue;
     return CGRectGetMaxY(layoutCell.commentLabel.frame);
 }
 
-#pragma mark - Image View
+#pragma mark - Image View Gestures
 
 - (void) tapFired:(UITapGestureRecognizer *)sender
 {
@@ -310,6 +316,14 @@ static NSNumber *kernValue;
     if (sender.state == UIGestureRecognizerStateBegan)
     {
         [self.delegate cell:self didLongPressImageView:self.mediaImageView];
+    }
+}
+
+- (void) doubleTouchPressed:(UITapGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateEnded)
+    {
+        [self.delegate cell:self didDoubleTouchImageView:self.mediaImageView];
     }
 }
 
