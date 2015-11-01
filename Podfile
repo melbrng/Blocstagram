@@ -1,2 +1,3 @@
-pod “UICKeyChainStore”
-xcodeproj ‘/Users/melissaboring/work/Blocstagram/Blocstagram/Blocstagram.xcodeproj’
+pod 'UICKeyChainStore'
+pod 'AFNetworking'
+xcodeproj '/Users/melissaboring/work/Blocstagram/Blocstagram/Blocstagram.xcodeproj'

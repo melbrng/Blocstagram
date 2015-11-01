@@ -161,7 +161,6 @@
 				43B60DB31BCC3166004FB168 /* Assets.xcassets */,
 				43B60DB51BCC3166004FB168 /* LaunchScreen.storyboard */,
 				43B60DB81BCC3166004FB168 /* Info.plist */,
-				43B60DA71BCC3166004FB168 /* Supporting Files */,
 				43D58C5B1BCC5527002907C7 /* User.h */,
 				43D58C5C1BCC5527002907C7 /* User.m */,
 				43D58C5E1BCC5534002907C7 /* Media.h */,
@@ -172,6 +171,7 @@
 				43D58C651BCC5612002907C7 /* DataSource.m */,
 				43894FB51BD1705D00DB9771 /* MediaTableViewCell.h */,
 				43894FB61BD1705D00DB9771 /* MediaTableViewCell.m */,
+				43B60DA71BCC3166004FB168 /* Supporting Files */,
 			);
 			path = Blocstagram;
 			sourceTree = "<group>";
