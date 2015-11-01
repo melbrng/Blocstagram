@@ -26,7 +26,7 @@
     
     if (self)
     {
-
+        self.tableView.decelerationRate = 5.0f;
     }
     
     return self;
@@ -45,6 +45,8 @@
 
 
     [self.tableView registerClass:[MediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
+    
+    
 }
 
 //remove Observer right before self disappears
@@ -77,6 +79,22 @@
     }
 }
 
+-(void) loadVisibleImages
+{
+    //get the visible images indexPaths from the tableView and load if the downloadState = MediaDownloadStateNeedsImage
+    NSArray *indexPath = [self.tableView indexPathsForVisibleRows];
+    
+    for (NSIndexPath *x in indexPath) {
+        
+        Media *mediaItem = [DataSource sharedInstance].mediaItems[x.row];
+        
+        if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
+        {
+            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+        }
+    }
+}
+
 #pragma mark - UIScrollViewDelegate
 
 //uitableview is a child of uiscrollview
@@ -84,8 +102,25 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self infiniteScrollIfNecessary];
+    
+ //   NSLog(scrollView.dragging ? @"Yes" : @"No");
+    
+    //user has not begun scrolling so load visible images
+    if (scrollView.dragging == NO) {
+        
+        [self loadVisibleImages];
+        
+    }
+
 }
 
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    
+    [self loadVisibleImages];
+    
+}
 
 #pragma mark - KVO observing
 
@@ -169,14 +204,14 @@
 }
 
 //check for images right before the cell displays
-- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
-    if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
-    {
-        [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
-    }
-}
+//- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
+//    if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
+//    {
+//        [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+//    }
+//}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
