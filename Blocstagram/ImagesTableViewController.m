@@ -82,15 +82,20 @@
 -(void) loadVisibleImages
 {
     //get the visible images indexPaths from the tableView and load if the downloadState = MediaDownloadStateNeedsImage
-    NSArray *indexPath = [self.tableView indexPathsForVisibleRows];
     
-    for (NSIndexPath *x in indexPath) {
+    //user has not begun scrolling so load visible images
+    if (self.tableView.dragging == NO) {
         
-        Media *mediaItem = [DataSource sharedInstance].mediaItems[x.row];
+        NSArray *indexPath = [self.tableView indexPathsForVisibleRows];
         
-        if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
-        {
-            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+        for (NSIndexPath *x in indexPath) {
+            
+            Media *mediaItem = [DataSource sharedInstance].mediaItems[x.row];
+            
+            if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
+            {
+                [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+            }
         }
     }
 }
@@ -102,15 +107,8 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self infiniteScrollIfNecessary];
-    
- //   NSLog(scrollView.dragging ? @"Yes" : @"No");
-    
-    //user has not begun scrolling so load visible images
-    if (scrollView.dragging == NO) {
         
-        [self loadVisibleImages];
-        
-    }
+    [self loadVisibleImages];
 
 }
 
