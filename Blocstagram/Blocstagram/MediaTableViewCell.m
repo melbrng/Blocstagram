@@ -292,11 +292,12 @@ static NSNumber *kernValue;
     layoutCell.frame = CGRectMake(0, 0, CGRectGetWidth(layoutCell.frame), CGRectGetHeight(layoutCell.frame));
     
     layoutCell.mediaItem = mediaItem;
-    [layoutCell setNeedsLayout];
+    [layoutCell setNeedsLayout]; //re-layout
     [layoutCell layoutIfNeeded];
     
     // Get the actual height required for the cell
-    return CGRectGetMaxY(layoutCell.commentLabel.frame);
+    //return CGRectGetMaxY(layoutCell.commentLabel.frame);
+    return 500.0f;
 }
 
 #pragma mark - Image View Gestures

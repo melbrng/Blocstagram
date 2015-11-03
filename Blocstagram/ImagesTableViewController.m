@@ -84,10 +84,17 @@
     //get the visible images indexPaths from the tableView and load if the downloadState = MediaDownloadStateNeedsImage
     
     //user has not begun scrolling so load visible images
-    if (self.tableView.dragging == NO) {
+    NSLog(self.tableView.dragging ? @"YES" : @"NO" );
+    
+    NSArray *indexPath = [self.tableView indexPathsForVisibleRows];
+    
+    //initial load of tableView to load images for first visible
+    //not sure why this works ????????
+    if ((self.tableView.dragging == NO & indexPath == Nil)
         
-        NSArray *indexPath = [self.tableView indexPathsForVisibleRows];
-        
+        //for deceleration of scrollview
+        || (self.tableView.dragging == YES))
+    {
         for (NSIndexPath *x in indexPath) {
             
             Media *mediaItem = [DataSource sharedInstance].mediaItems[x.row];
