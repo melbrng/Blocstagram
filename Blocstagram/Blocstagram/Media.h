@@ -7,6 +7,7 @@
 //
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "LikeButton.h"
 
 typedef NS_ENUM(NSInteger, MediaDownloadState) {
     MediaDownloadStateNeedsImage             = 0,
@@ -26,6 +27,8 @@ typedef NS_ENUM(NSInteger, MediaDownloadState) {
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSString *caption;
 @property (nonatomic, strong) NSArray *comments;
+
+@property (nonatomic, assign) LikeState likeState;
 
 //This property uses the assign keyword instead of strong.
 //This is because MediaDownloadState (aka NSInteger) is a simple type, not an object.
