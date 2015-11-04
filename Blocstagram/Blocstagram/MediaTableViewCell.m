@@ -292,12 +292,21 @@ static NSNumber *kernValue;
     layoutCell.frame = CGRectMake(0, 0, CGRectGetWidth(layoutCell.frame), CGRectGetHeight(layoutCell.frame));
     
     layoutCell.mediaItem = mediaItem;
-    [layoutCell setNeedsLayout]; //re-layout
+    [layoutCell setNeedsLayout]; //re-layout all new contents
     [layoutCell layoutIfNeeded];
     
-    // Get the actual height required for the cell
-    //return CGRectGetMaxY(layoutCell.commentLabel.frame);
-    return 500.0f;
+    
+    // Set the height to addition of label,caption and mediaImage frame heights
+    CGFloat maxHeight = (layoutCell.commentLabel.frame.size.height) + (layoutCell.usernameAndCaptionLabel.frame.size.height) + (layoutCell.mediaImageView.frame.size.height) + 20.0f;
+    
+    
+    NSLog(@"---------------------");
+    NSLog(@"%@",mediaItem.idNumber);
+    NSLog(@"%f maxHeight",maxHeight);
+    NSLog(@"%f contentView",layoutCell.contentView.frame.size.height);
+NSLog(@"---------------------");
+    
+    return maxHeight;
 }
 
 #pragma mark - Image View Gestures
