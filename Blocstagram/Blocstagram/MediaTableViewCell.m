@@ -299,13 +299,6 @@ static NSNumber *kernValue;
     // Set the height to addition of label,caption and mediaImage frame heights
     CGFloat maxHeight = (layoutCell.commentLabel.frame.size.height) + (layoutCell.usernameAndCaptionLabel.frame.size.height) + (layoutCell.mediaImageView.frame.size.height) + 20.0f;
     
-    
-    NSLog(@"---------------------");
-    NSLog(@"%@",mediaItem.idNumber);
-    NSLog(@"%f maxHeight",maxHeight);
-    NSLog(@"%f contentView",layoutCell.contentView.frame.size.height);
-NSLog(@"---------------------");
-    
     return maxHeight;
 }
 

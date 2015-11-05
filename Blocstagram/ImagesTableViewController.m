@@ -244,16 +244,14 @@
 
     CGFloat height = [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
     
-    NSLog(@"%f heightForRowAtIndexPath",height);
-    
-    return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
+    return height;
 
 }
 
 - (CGFloat) tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
-    NSLog(@" estimatedHeightForRowAtIndexPath");
+
     if (item.image)
     {
         return 350;
