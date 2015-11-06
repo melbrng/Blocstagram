@@ -11,8 +11,9 @@
 #import "Comment.h"
 #import "User.h"
 #import "LikeButton.h"
+#import "ComposeCommentView.h"
 
-@interface MediaTableViewCell ()  <UIGestureRecognizerDelegate>
+@interface MediaTableViewCell () <UIGestureRecognizerDelegate, ComposeCommentViewDelegate>
 
 @property (nonatomic, strong) UIImageView *mediaImageView;
 @property (nonatomic, strong) UILabel *usernameAndCaptionLabel;
@@ -27,6 +28,7 @@
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGestureRecognizer;
 
 @property (nonatomic, strong) LikeButton *likeButton;
+@property (nonatomic, strong) ComposeCommentView *commentView;
 
 @property (nonatomic, strong) UILabel *numberOfLikesLabel;
 
@@ -67,7 +69,7 @@ static NSNumber *kernValue;
         self.longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
         self.longPressGestureRecognizer.delegate = self;
         [self.mediaImageView addGestureRecognizer:self.longPressGestureRecognizer];
-
+        
         self.usernameAndCaptionLabel = [[UILabel alloc] init];
         self.usernameAndCaptionLabel.numberOfLines = 0;
         self.usernameAndCaptionLabel.backgroundColor = usernameLabelGray;
@@ -85,24 +87,28 @@ static NSNumber *kernValue;
         self.numberOfLikesLabel.backgroundColor = usernameLabelGray;
         self.numberOfLikesLabel.textAlignment = NSTextAlignmentCenter;
         self.numberOfLikesLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:16];
-
+        
         self.contentView.backgroundColor = usernameLabelGray;
         
+        self.commentView = [[ComposeCommentView alloc] init];
+        self.commentView.delegate = self;
         
-        for (UIView *view in @[self.mediaImageView, self.usernameAndCaptionLabel, self.commentLabel, self.likeButton, self.numberOfLikesLabel])
+        
+        for (UIView *view in @[self.mediaImageView, self.usernameAndCaptionLabel, self.commentLabel, self.likeButton, self.numberOfLikesLabel, self.commentView])
         {
             [self.contentView addSubview:view];
             //set to NO when working with auto layout
             view.translatesAutoresizingMaskIntoConstraints = NO;
         }
         
-        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel, _likeButton, _numberOfLikesLabel);
+        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel, _likeButton, _numberOfLikesLabel,_commentView);
         
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mediaImageView]|" options:kNilOptions metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_usernameAndCaptionLabel][_numberOfLikesLabel(==38)][_likeButton(==38)]|" options:kNilOptions metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentView]|" options:kNilOptions metrics:nil views:viewDictionary]];
         
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mediaImageView][_usernameAndCaptionLabel][_commentLabel]"
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mediaImageView][_usernameAndCaptionLabel][_commentLabel][_commentView(==100)]"
                                                                                  options:kNilOptions
                                                                                  metrics:nil
                                                                                    views:viewDictionary]];
@@ -147,7 +153,7 @@ static NSNumber *kernValue;
         
         [self.contentView addConstraints:@[self.imageHeightConstraint, self.usernameAndCaptionLabelHeightConstraint, self.commentLabelHeightConstraint]];
         
-       
+        
     }
     
     return self;
@@ -172,8 +178,9 @@ static NSNumber *kernValue;
     self.usernameAndCaptionLabel.attributedText = [self usernameAndCaptionString];
     self.commentLabel.attributedText = [self commentString];
     self.likeButton.likeButtonState = mediaItem.likeState;
-    self.numberOfLikesLabel.text =(self.mediaItem.numberOfLikes ? self.mediaItem.numberOfLikes.stringValue : @"0");
- 
+    self.numberOfLikesLabel.text =self.mediaItem.numberOfLikes.stringValue;
+    self.commentView.text = mediaItem.temporaryComment;
+    
 }
 
 //CLASS METHOD (notice the +)
@@ -224,7 +231,7 @@ static NSNumber *kernValue;
 {
     
     CGFloat usernameFontSize = 15;
-
+    
     // Make a string that says "username caption"
     NSString *baseString = [NSString stringWithFormat:@"%@ %@", self.mediaItem.user.userName, self.mediaItem.caption];
     
@@ -288,7 +295,7 @@ static NSNumber *kernValue;
             
             //set its color attribute
             [oneCommentString addAttribute:NSForegroundColorAttributeName value:commentOrange range:textRange];
-
+            
         }
         
         [commentString appendAttributedString:oneCommentString];
@@ -306,6 +313,7 @@ static NSNumber *kernValue;
     [super layoutSubviews];
     
     // Before layout, calculate the intrinsic size of the labels (the size they "want" to be), and add 20 to the height for some vertical padding.
+    //as wide as the view bounds and as high as CGFLOAT_MAX?
     CGSize maxSize = CGSizeMake(CGRectGetWidth(self.bounds), CGFLOAT_MAX);
     CGSize usernameLabelSize = [self.usernameAndCaptionLabel sizeThatFits:maxSize];
     CGSize commentLabelSize = [self.commentLabel sizeThatFits:maxSize];
@@ -341,8 +349,8 @@ static NSNumber *kernValue;
     [layoutCell setNeedsLayout];
     [layoutCell layoutIfNeeded];
     
-    // The height will be wherever the bottom of the comments label is, plus a little padding
-    return CGRectGetMaxY(layoutCell.commentLabel.frame) + 20.0f;
+    // The height will be wherever the bottom of the comment view is, plus a little padding
+    return CGRectGetMaxY(layoutCell.commentView.frame) + 20.0f;
 }
 
 #pragma mark - Image View Gestures
@@ -379,5 +387,27 @@ static NSNumber *kernValue;
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     return self.isEditing == NO;
+}
+
+#pragma mark - ComposeCommentViewDelegate
+
+- (void) commentViewDidPressCommentButton:(ComposeCommentView *)sender
+{
+    [self.delegate cell:self didComposeComment:self.mediaItem.temporaryComment];
+}
+
+- (void) commentView:(ComposeCommentView *)sender textDidChange:(NSString *)text
+{
+    self.mediaItem.temporaryComment = text;
+}
+
+- (void) commentViewWillStartEditing:(ComposeCommentView *)sender
+{
+    [self.delegate cellWillStartComposingComment:self];
+}
+
+- (void) stopComposingComment
+{
+    [self.commentView stopComposingComment];
 }
 @end

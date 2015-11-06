@@ -23,6 +23,7 @@
 		43D58C601BCC5534002907C7 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D58C5F1BCC5534002907C7 /* Media.m */; };
 		43D58C631BCC5541002907C7 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D58C621BCC5541002907C7 /* Comment.m */; };
 		43D58C661BCC5612002907C7 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D58C651BCC5612002907C7 /* DataSource.m */; };
+		43FE20941BED5F76009D0D56 /* ComposeCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FE20931BED5F76009D0D56 /* ComposeCommentView.m */; };
 		67E52AD2E6034D7B1950E646 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 370C3740C6203857BF098F1A /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +79,8 @@
 		43D58C621BCC5541002907C7 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		43D58C641BCC5612002907C7 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
 		43D58C651BCC5612002907C7 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
+		43FE20921BED5F76009D0D56 /* ComposeCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeCommentView.h; sourceTree = "<group>"; };
+		43FE20931BED5F76009D0D56 /* ComposeCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeCommentView.m; sourceTree = "<group>"; };
 		9754CE3D8B9BB65FAEAE80F6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D6B236342E29A8CA3B299477 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -133,6 +136,8 @@
 		43B60DA61BCC3166004FB168 /* Blocstagram */ = {
 			isa = PBXGroup;
 			children = (
+				43FE20921BED5F76009D0D56 /* ComposeCommentView.h */,
+				43FE20931BED5F76009D0D56 /* ComposeCommentView.m */,
 				43B60DAA1BCC3166004FB168 /* AppDelegate.h */,
 				43B60DAB1BCC3166004FB168 /* AppDelegate.m */,
 				43CA630F1BDEB5AF008606F1 /* LoginViewController.h */,
@@ -396,6 +401,7 @@
 				43CA63111BDEB5AF008606F1 /* LoginViewController.m in Sources */,
 				437C2D3B1BEA8CA9001AE9D7 /* LikeButton.m in Sources */,
 				43D58C661BCC5612002907C7 /* DataSource.m in Sources */,
+				43FE20941BED5F76009D0D56 /* ComposeCommentView.m in Sources */,
 				43B60DA91BCC3166004FB168 /* main.m in Sources */,
 				43D58C5A1BCC373C002907C7 /* ImagesTableViewController.m in Sources */,
 			);
