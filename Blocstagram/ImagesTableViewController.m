@@ -299,7 +299,7 @@
 - (void) cellDidPressLikeButton:(MediaTableViewCell *)cell
 {
     Media *item = cell.mediaItem;
-    
+
     [[DataSource sharedInstance] toggleLikeOnMediaItem:item withCompletionHandler:^{
         
         // If the user scrolls and the cell is reused to display a different media item, we no longer want to update the button
@@ -309,6 +309,7 @@
     }];
     
     cell.mediaItem = item;
+    
 }
 
 @end

@@ -83,6 +83,24 @@
     return itemsToShare;
 }
 
+-(void)countLikes
+{
+    if (self.likeState == LikeStateLiked)
+    {
+        int count = [self.numberOfLikes intValue] ? [self.numberOfLikes intValue] : 0;
+        
+        count += 1;
+        
+        self.numberOfLikes = [NSNumber numberWithInt:count];
+    }
+    
+}
+
+-(void)setNumberOfLikes:(NSNumber *)numberOfLikes
+{
+    _numberOfLikes = numberOfLikes;
+}
+
 #pragma mark - NSCoding
 
 - (instancetype) initWithCoder:(NSCoder *)aDecoder {
@@ -111,6 +129,7 @@
         self.caption = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(caption))];
         self.comments = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(comments))];
         self.likeState = [aDecoder decodeIntegerForKey:NSStringFromSelector(@selector(likeState))];
+        self.numberOfLikes = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(numberOfLikes))];
 
     }
     
@@ -125,6 +144,7 @@
     [aCoder encodeObject:self.caption forKey:NSStringFromSelector(@selector(caption))];
     [aCoder encodeObject:self.comments forKey:NSStringFromSelector(@selector(comments))];
     [aCoder encodeInteger:self.likeState forKey:NSStringFromSelector(@selector(likeState))];
+    [aCoder encodeObject:self.numberOfLikes forKey:NSStringFromSelector(@selector(numberOfLikes))];
 
 }
 
