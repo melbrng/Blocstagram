@@ -194,7 +194,9 @@
 
     Media *item = [self items][indexPath.row];
 
-    return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
+    CGFloat height = [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
+    
+    return height;
 
 }
 

@@ -289,9 +289,10 @@ static NSNumber *kernValue;
     // Make a cell
     MediaTableViewCell *layoutCell = [[MediaTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"layoutCell"];
     
+    layoutCell.mediaItem = mediaItem;
     layoutCell.frame = CGRectMake(0, 0, CGRectGetWidth(layoutCell.frame), CGRectGetHeight(layoutCell.frame));
     
-    layoutCell.mediaItem = mediaItem;
+
     [layoutCell setNeedsLayout];
     [layoutCell layoutIfNeeded];
     
