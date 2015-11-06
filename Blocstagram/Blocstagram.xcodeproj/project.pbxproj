@@ -154,11 +154,11 @@
 				43D58C651BCC5612002907C7 /* DataSource.m */,
 				43894FB51BD1705D00DB9771 /* MediaTableViewCell.h */,
 				43894FB61BD1705D00DB9771 /* MediaTableViewCell.m */,
-				43B60DA71BCC3166004FB168 /* Supporting Files */,
 				437C2D361BEA7FA4001AE9D7 /* CircleSpinnerView.h */,
 				437C2D371BEA7FA4001AE9D7 /* CircleSpinnerView.m */,
 				437C2D391BEA8CA9001AE9D7 /* LikeButton.h */,
 				437C2D3A1BEA8CA9001AE9D7 /* LikeButton.m */,
+				43B60DA71BCC3166004FB168 /* Supporting Files */,
 			);
 			path = Blocstagram;
 			sourceTree = "<group>";

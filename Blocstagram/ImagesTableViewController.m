@@ -81,26 +81,12 @@
 
 -(void) loadVisibleImages
 {
-    //get the visible images indexPaths from the tableView and load if the downloadState = MediaDownloadStateNeedsImage
-    
-    //user has not begun scrolling so load visible images
-    //NSLog(self.tableView.dragging ? @"YES" : @"NO" );
     
     NSArray *indexPath = [self.tableView indexPathsForVisibleRows];
     
     //initial load of tableView to load images for first visible
-    if (self.tableView.dragging == NO & indexPath == Nil)
-    {
-            
-            Media *mediaItem = [[self items]objectAtIndex:0];
-            
-            if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
-            {
-                [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
-            }
-    }
-    //scrolling has been initiated
-    else
+    if (self.tableView.dragging == YES )
+
     {
         for (NSIndexPath *x in indexPath)
         {
@@ -217,14 +203,14 @@
 }
 
 //check for images right before the cell displays
-//- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
-//    if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
-//    {
-//        [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
-//    }
-//}
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
+    if (mediaItem.downloadState == MediaDownloadStateNeedsImage)
+    {
+        [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+    }
+}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

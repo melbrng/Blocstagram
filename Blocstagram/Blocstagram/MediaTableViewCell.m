@@ -172,7 +172,7 @@ static NSNumber *kernValue;
     self.usernameAndCaptionLabel.attributedText = [self usernameAndCaptionString];
     self.commentLabel.attributedText = [self commentString];
     self.likeButton.likeButtonState = mediaItem.likeState;
-    self.numberOfLikesLabel.text =self.mediaItem.numberOfLikes.stringValue;
+    self.numberOfLikesLabel.text =(self.mediaItem.numberOfLikes ? self.mediaItem.numberOfLikes.stringValue : @"0");
  
 }
 
@@ -327,20 +327,22 @@ static NSNumber *kernValue;
 
 
 + (CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width {
+    
     // Make a cell
     MediaTableViewCell *layoutCell = [[MediaTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"layoutCell"];
     
+    // Set it to the given width, and the maximum possible height
     layoutCell.frame = CGRectMake(0, 0, CGRectGetWidth(layoutCell.frame), CGRectGetHeight(layoutCell.frame));
     
+    // Give it the media item
     layoutCell.mediaItem = mediaItem;
-    [layoutCell setNeedsLayout]; //re-layout all new contents
+    
+    // Make it adjust the image view and labels
+    [layoutCell setNeedsLayout];
     [layoutCell layoutIfNeeded];
     
-    
-    // Set the height to addition of label,caption and mediaImage frame heights
-    CGFloat maxHeight = (layoutCell.commentLabel.frame.size.height) + (layoutCell.usernameAndCaptionLabel.frame.size.height) + (layoutCell.mediaImageView.frame.size.height) + 20.0f;
-    
-    return maxHeight;
+    // The height will be wherever the bottom of the comments label is, plus a little padding
+    return CGRectGetMaxY(layoutCell.commentLabel.frame) + 20.0f;
 }
 
 #pragma mark - Image View Gestures
