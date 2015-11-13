@@ -14,6 +14,7 @@
 #import "MediaTableViewCell.h"
 #import "MediaFullScreenViewController.h"
 #import "CameraViewController.h"
+#import "ImageViewController.h"
 
 @interface ImagesTableViewController ()<MediaTableViewCellDelegate, CameraViewControllerDelegate>
 
@@ -236,7 +237,8 @@
 
 #pragma mark - Camera and CameraViewControllerDelegate
 
-- (void) cameraPressed:(UIBarButtonItem *) sender {
+- (void) cameraPressed:(UIBarButtonItem *) sender
+{
     CameraViewController *cameraVC = [[CameraViewController alloc] init];
     cameraVC.delegate = self;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:cameraVC];
@@ -244,14 +246,30 @@
     return;
 }
 
-- (void) cameraViewController:(CameraViewController *)cameraViewController didCompleteWithImage:(UIImage *)image {
+- (void) cameraViewController:(CameraViewController *)cameraViewController didCompleteWithImage:(UIImage *)image
+{
     [cameraViewController dismissViewControllerAnimated:YES completion:^{
-        if (image) {
-            NSLog(@"Got an image!");
-        } else {
+        if (!image)
+        {
+//            NSLog(@"Got an image!");
+//
+//        }
+//        
+//        else
+//        {
             NSLog(@"Closed without an image.");
         }
     }];
+    
+    if (image)
+    {
+        NSLog(@"Got an image!");
+        
+        ImageViewController *imageVC = [[ImageViewController alloc] initWithImage:image];
+        // imageVC.delegate = self;
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:imageVC];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 

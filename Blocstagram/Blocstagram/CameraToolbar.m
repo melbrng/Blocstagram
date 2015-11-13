@@ -48,7 +48,8 @@
         self.purpleView = [UIView new];
         self.purpleView.backgroundColor = [UIColor colorWithRed:0.345 green:0.318 blue:0.424 alpha:1]; /*#58516c*/
         
-        for (UIView *view in @[self.whiteView, self.purpleView, self.leftButton, self.cameraButton, self.rightButton]) {
+        for (UIView *view in @[self.whiteView, self.purpleView, self.leftButton, self.cameraButton, self.rightButton])
+        {
             [self addSubview:view];
             view.translatesAutoresizingMaskIntoConstraints = NO;
         }
@@ -60,8 +61,10 @@
 }
 
 
-- (void) layoutSubviews {
+- (void) layoutSubviews
+{
     [super layoutSubviews];
+    
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.purpleView.bounds
                                                    byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
                                                          cornerRadii:CGSizeMake(10.0, 10.0)];
@@ -73,7 +76,8 @@
     self.purpleView.layer.mask = maskLayer;
 }
 
-- (void) createConstraints {
+- (void) createConstraints
+{
     NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_leftButton, _cameraButton, _rightButton, _whiteView, _purpleView);
     
     // The three buttons have equal widths and are distributed across the whole view
@@ -94,8 +98,10 @@
     
     NSArray *allConstraintArrays = @[allButtonsHorizontalConstraints, leftButtonVerticalConstraints, cameraButtonVerticalConstraints, rightButtonVerticalConstraints, whiteViewHorizontalConstraints, whiteViewVerticalConstraints, purpleViewHorizontalConstraints, purpleViewVerticalConstraints];
     
-    for (NSArray *constraintsArray in allConstraintArrays) {
-        for (NSLayoutConstraint *constraint in constraintsArray) {
+    for (NSArray *constraintsArray in allConstraintArrays)
+    {
+        for (NSLayoutConstraint *constraint in constraintsArray)
+        {
             [self addConstraint:constraint];
         }
     }
@@ -103,15 +109,18 @@
 
 # pragma mark - Button Handlers
 
-- (void) leftButtonPressed:(UIButton *)sender {
+- (void) leftButtonPressed:(UIButton *)sender
+{
     [self.delegate leftButtonPressedOnToolbar:self];
 }
 
-- (void) rightButtonPressed:(UIButton *)sender {
+- (void) rightButtonPressed:(UIButton *)sender
+{
     [self.delegate rightButtonPressedOnToolbar:self];
 }
 
-- (void) cameraButtonPressed:(UIButton *)sender {
+- (void) cameraButtonPressed:(UIButton *)sender
+{
     [self.delegate cameraButtonPressedOnToolbar:self];
 }
 

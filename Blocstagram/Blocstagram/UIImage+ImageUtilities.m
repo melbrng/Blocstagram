@@ -10,8 +10,11 @@
 
 @implementation UIImage (ImageUtilities)
 
-- (UIImage *) imageWithFixedOrientation {
-    
+
+
+- (UIImage *) imageByScalingToSize:(CGSize)size andCroppingWithRect:(CGRect)rect
+{
+    //normalize the image to start with ....
     // Do nothing if the orientation is already correct
     if (self.imageOrientation == UIImageOrientationUp) return [self copy];
     
@@ -77,7 +80,6 @@
     // calculated above.
     CGFloat scaleFactor = self.scale;
     
-    
     CGContextRef ctx = CGBitmapContextCreate(NULL,
                                              self.size.width * scaleFactor,
                                              self.size.height * scaleFactor,
@@ -86,8 +88,10 @@
                                              CGImageGetColorSpace(self.CGImage),
                                              CGImageGetBitmapInfo(self.CGImage));
     
+    //Changes the scale of the user coordinate system in a context.
     CGContextScaleCTM(ctx, scaleFactor, scaleFactor);
     
+    //Transforms the user coordinate system in a context using a specified matrix.
     CGContextConcatCTM(ctx, transform);
     
     switch (self.imageOrientation)
@@ -104,30 +108,29 @@
             break;
     }
     
+    
     // Create a new UIImage from the drawing context
     CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
     UIImage *img = [UIImage imageWithCGImage:cgimg scale:scaleFactor orientation:UIImageOrientationUp];
-    CGContextRelease(ctx);
-    CGImageRelease(cgimg);
-    return img;
-}
+    
 
-- (UIImage *) imageResizedToMatchAspectRatioOfSize:(CGSize)size {
+
+    //resize an image to the aspect ratio of the screen in order to make the cropping rectangle accurate
     CGFloat horizontalRatio = size.width / self.size.width;
     CGFloat verticalRatio = size.height / self.size.height;
     CGFloat ratio = MAX(horizontalRatio, verticalRatio);
     CGSize newSize = CGSizeMake(self.size.width * ratio * self.scale, self.size.height * ratio * self.scale);
     
     CGRect newRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
-    CGImageRef imageRef = self.CGImage;
+    CGImageRef imageRef = img.CGImage;
     
-    CGContextRef ctx = CGBitmapContextCreate(NULL,
-                                             newRect.size.width,
-                                             newRect.size.height,
-                                             CGImageGetBitsPerComponent(self.CGImage),
-                                             0,
-                                             CGImageGetColorSpace(self.CGImage),
-                                             CGImageGetBitmapInfo(self.CGImage));
+    ctx = CGBitmapContextCreate(NULL,
+                 newRect.size.width,
+                 newRect.size.height,
+                 CGImageGetBitsPerComponent(imageRef),
+                 0,
+                 CGImageGetColorSpace(imageRef),
+                 CGImageGetBitmapInfo(imageRef));
     
     // Draw into the context; this scales the image
     CGContextDrawImage(ctx, newRect, imageRef);
@@ -135,23 +138,20 @@
     // Get the resized image from the context and a UIImage
     CGImageRef newImageRef = CGBitmapContextCreateImage(ctx);
     UIImage *newImage = [UIImage imageWithCGImage:newImageRef scale:self.scale orientation:UIImageOrientationUp];
-    
-    // Clean up
     CGContextRelease(ctx);
     CGImageRelease(newImageRef);
     
-    return newImage;
-}
-
-- (UIImage *) imageCroppedToRect:(CGRect)cropRect {
-    cropRect.size.width *= self.scale;
-    cropRect.size.height *= self.scale;
-    cropRect.origin.x *= self.scale;
-    cropRect.origin.y *= self.scale;
+//    //crop to the rectangle
+    rect.size.width *= self.scale;
+    rect.size.height *= self.scale;
     
-    CGImageRef imageRef = CGImageCreateWithImageInRect(self.CGImage, cropRect);
-    UIImage *image = [UIImage imageWithCGImage:imageRef scale:self.scale orientation:self.imageOrientation];
-    CGImageRelease(imageRef);
+   // rect.origin.x = (CGRectGetMinX(rect) + (newImage.size.width - CGRectGetWidth(rect)) / 2);
+    rect.origin.x *= self.scale;
+    rect.origin.y *= self.scale;
+    
+    CGImageRef croppedImageRef = CGImageCreateWithImageInRect(newImage.CGImage, rect);
+    UIImage *image = [UIImage imageWithCGImage:croppedImageRef scale:self.scale orientation:UIImageOrientationUp];
+    CGImageRelease(croppedImageRef);
     return image;
 }
 
