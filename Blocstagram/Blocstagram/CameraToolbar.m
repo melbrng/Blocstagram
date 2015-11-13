@@ -21,10 +21,12 @@
 
 @implementation CameraToolbar
 
-- (instancetype) initWithImageNames:(NSArray *)imageNames {
+- (instancetype) initWithImageNames:(NSArray *)imageNames
+{
     self = [super init];
     
-    if (self) {
+    if (self)
+    {
         self.leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
