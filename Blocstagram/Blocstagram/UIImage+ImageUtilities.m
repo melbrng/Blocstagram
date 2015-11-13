@@ -11,17 +11,27 @@
 @implementation UIImage (ImageUtilities)
 
 - (UIImage *) imageWithFixedOrientation {
+    
     // Do nothing if the orientation is already correct
     if (self.imageOrientation == UIImageOrientationUp) return [self copy];
     
     // We need to calculate the proper transformation to make the image upright.
     // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
+    
+    //CGAffineTransform data structure represents a matrix used for affine transformations
     CGAffineTransform transform = CGAffineTransformIdentity;
     
-    switch (self.imageOrientation) {
+    //rotate
+    switch (self.imageOrientation)
+    {
+            //same code is executed for UIImageOrientationDown and UIImageOrientationDownMirrored
         case UIImageOrientationDown:
         case UIImageOrientationDownMirrored:
+            
+            //Returns an affine transformation matrix constructed by translating an existing affine transform.
             transform = CGAffineTransformTranslate(transform, self.size.width, self.size.height);
+            
+            //constructed by rotating an existing affine transform
             transform = CGAffineTransformRotate(transform, M_PI);
             break;
             
@@ -36,12 +46,15 @@
             transform = CGAffineTransformTranslate(transform, 0, self.size.height);
             transform = CGAffineTransformRotate(transform, -M_PI_2);
             break;
+            
         case UIImageOrientationUp:
         case UIImageOrientationUpMirrored:
             break;
     }
     
-    switch (self.imageOrientation) {
+    //flip
+    switch (self.imageOrientation)
+    {
         case UIImageOrientationUpMirrored:
         case UIImageOrientationDownMirrored:
             transform = CGAffineTransformTranslate(transform, self.size.width, 0);
@@ -76,7 +89,9 @@
     CGContextScaleCTM(ctx, scaleFactor, scaleFactor);
     
     CGContextConcatCTM(ctx, transform);
-    switch (self.imageOrientation) {
+    
+    switch (self.imageOrientation)
+    {
         case UIImageOrientationLeft:
         case UIImageOrientationLeftMirrored:
         case UIImageOrientationRight:
