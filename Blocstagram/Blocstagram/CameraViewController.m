@@ -168,19 +168,10 @@
                 
                 // camera provides data to the session through capturedevieinput
                 NSError *error = nil;
-                AVCaptureDeviceInput *input = nil;
-              //  AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+                AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
                 
                 if (!input)
                 {
-//                    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:error.localizedDescription                 message:error.localizedRecoverySuggestion
-//                        preferredStyle:UIAlertControllerStyleAlert];
-//                    
-//                    [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button")
-//                        style:UIAlertActionStyleCancel
-//                        handler:^(UIAlertAction *action) {
-//                            [self.delegate cameraViewController:self didCompleteWithImage:nil];
-//                    }]];
                     
                     UIAlertController *alertVC = [self returnAlertControllerWithTitle:error.localizedDescription
                         andError:error.localizedRecoverySuggestion
@@ -206,17 +197,6 @@
             //if anything goes wrong we tell delegate no image was obtained
             else
             {
-//                UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Camera Permission Denied", @"camera permission denied title")
-//                    message:NSLocalizedString(@"This app doesn't have permission to use the camera; please update your privacy settings.", @"camera permission denied recovery suggestion")
-//                        preferredStyle:UIAlertControllerStyleAlert];
-//                
-//                [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button")
-//                        style:UIAlertActionStyleCancel
-//                        handler:^(UIAlertAction *action) {
-//                            
-//                    [self.delegate cameraViewController:self didCompleteWithImage:nil];
-//                            
-//                }]];
                 
                 UIAlertController *alertVC = [self returnAlertControllerWithTitle:NSLocalizedString(@"Camera Permission Denied", @"camera permission denied title")
                     andError:NSLocalizedString(@"This app doesn't have permission to use the camera; please update your privacy settings.", @"camera permission denied recovery suggestion")
@@ -369,9 +349,6 @@
                                          CGRectGetMinY(bottomLine.frame) - CGRectGetMinY(topLine.frame));
             
             CGRect cropRect = gridRect;
-            
-            //I remove this here completely otherwise my X is cut in half
-           // cropRect.origin.x = (CGRectGetMinX(gridRect) + (image.size.width - CGRectGetWidth(gridRect)) / 2);
 
             //pass to category method to orient, scale and crop the image
             image = [image imageByScalingToSize:self.captureVideoPreviewLayer.bounds.size andCroppingWithRect:cropRect];
@@ -385,18 +362,7 @@
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                
-//                UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:error.localizedDescription
-//                    message:error.localizedRecoverySuggestion
-//                    preferredStyle:UIAlertControllerStyleAlert];
-//                
-//                [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button")
-//                    style:UIAlertActionStyleCancel
-//                    handler:^(UIAlertAction *action) {
-//                    [self.delegate cameraViewController:self didCompleteWithImage:nil];
-//                }]];
-                
-                
+
                 UIAlertController *alertVC = [self returnAlertControllerWithTitle:error.localizedDescription
                                                                          andError:error.localizedRecoverySuggestion
                                                                          andStyle:UIAlertControllerStyleAlert];

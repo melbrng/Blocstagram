@@ -141,11 +141,10 @@
     CGContextRelease(ctx);
     CGImageRelease(newImageRef);
     
-//    //crop to the rectangle
+    //crop to the rectangle
     rect.size.width *= self.scale;
     rect.size.height *= self.scale;
-    
-   // rect.origin.x = (CGRectGetMinX(rect) + (newImage.size.width - CGRectGetWidth(rect)) / 2);
+
     rect.origin.x *= self.scale;
     rect.origin.y *= self.scale;
     
