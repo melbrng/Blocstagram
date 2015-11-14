@@ -11,7 +11,7 @@
 
 @interface MediaFullScreenViewController () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) Media *media;
+
 
 //Any time you implement a pinch gesture, it's a good idea to implement a double-tap gesture too.
 //Not only is it handy, but it's very helpful to disabled users who may be unable to pinch.
@@ -92,9 +92,16 @@
     //scroll view will take up view's space
     self.scrollView.frame = self.view.bounds;
     
-    // #5
+    [self recalculateZoomScale];
+}
+
+- (void) recalculateZoomScale {
     CGSize scrollViewFrameSize = self.scrollView.frame.size;
     CGSize scrollViewContentSize = self.scrollView.contentSize;
+    
+    //allows subclasses to recalculate the zoom scale for scroll views that are zoomed out
+    scrollViewContentSize.height /= self.scrollView.zoomScale;
+    scrollViewContentSize.width /= self.scrollView.zoomScale;
     
     CGFloat scaleWidth = scrollViewFrameSize.width / scrollViewContentSize.width;
     CGFloat scaleHeight = scrollViewFrameSize.height / scrollViewContentSize.height;
