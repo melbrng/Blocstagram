@@ -34,7 +34,6 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setupLayout];
     
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     
@@ -67,22 +66,6 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 
--(void) setupLayout
-{
-    
-    CGRect screenSize = self.view.bounds;
-    CGFloat screenWidth = screenSize.size.width;
-    CGFloat screenHeight = screenSize.size.height;
-    
-    
-    self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    self.flowLayout.itemSize = CGSizeMake(screenWidth/3, screenHeight/5);
-
-    self.flowLayout.minimumLineSpacing = 0;
-    self.flowLayout.minimumInteritemSpacing = 0;
-
-    [self.collectionView setCollectionViewLayout:self.flowLayout];
-}
 
 - (void) cancelPressed:(UIBarButtonItem *)sender {
     [self.delegate imageLibraryViewController:self didCompleteWithImage:nil];
@@ -96,15 +79,15 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void) viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    CGFloat width = CGRectGetWidth(self.view.frame);
+    CGFloat width = CGRectGetWidth(self.view.frame)- 5.0;
     CGFloat minWidth = 100;
     NSInteger divisor = width / minWidth;
     CGFloat cellSize = width / divisor;
     
-    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
-    flowLayout.itemSize = CGSizeMake(cellSize, cellSize);
-    flowLayout.minimumInteritemSpacing = 5.0;
-    flowLayout.minimumLineSpacing = 1.0;
+    self.flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
+    self.flowLayout.itemSize = CGSizeMake(cellSize, cellSize);
+    self.flowLayout.minimumInteritemSpacing = 1.0;
+    self.flowLayout.minimumLineSpacing = 1.0;
 }
 
 //fetch assets sorted by CreationDate
@@ -152,12 +135,10 @@ static NSString * const reuseIdentifier = @"Cell";
         [[PHImageManager defaultManager] cancelImageRequest:(PHImageRequestID)cell.tag];
     }
     
-    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
-    
     PHAsset *asset = self.result[indexPath.row];
     
     cell.tag = [[PHImageManager defaultManager] requestImageForAsset:asset
-                    targetSize:flowLayout.itemSize
+                    targetSize:self.flowLayout.itemSize
                     contentMode:PHImageContentModeAspectFill
                     options:nil
                     resultHandler:^(UIImage *result, NSDictionary *info) {
@@ -171,6 +152,7 @@ static NSString * const reuseIdentifier = @"Cell";
                     }];
     
     cell.backgroundColor = [UIColor yellowColor];
+
 
     return cell;
 }

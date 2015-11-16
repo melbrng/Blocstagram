@@ -38,11 +38,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self createViews];
+    [self addViewsToViewHierarchy];
     
     self.view.clipsToBounds = YES;
-    
-    [self.view addSubview:self.cropBox];
     
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Crop", @"Crop command") style:UIBarButtonItemStyleDone target:self action:@selector(cropPressed:)];
     
@@ -56,7 +56,7 @@
 
 - (void) addViewsToViewHierarchy
 {
-    NSMutableArray *views = [@[self.cropBox, self.topView, self.bottomView] mutableCopy];
+    NSMutableArray *views = [@[self.cropBox,self.topView, self.bottomView] mutableCopy];
     
     for (UIView *view in views) {
         [self.view addSubview:view];
