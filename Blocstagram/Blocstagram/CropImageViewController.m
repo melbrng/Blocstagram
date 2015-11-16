@@ -66,11 +66,6 @@
 - (void) viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    //CGRect cropRect = CGRectZero;
-    
-    CGFloat edgeSize = MIN(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
-    //cropRect.size = CGSizeMake(edgeSize, edgeSize);
-    
     CGSize size = self.view.frame.size;
     
     CGFloat width = CGRectGetWidth(self.view.bounds);
