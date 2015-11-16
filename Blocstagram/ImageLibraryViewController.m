@@ -12,6 +12,9 @@
 
 @interface ImageLibraryViewController () <CropImageViewControllerDelegate>
 
+
+//fetches objects from the backing store in chunks on demand
+//high performance array of image assets
 @property (nonatomic, strong) PHFetchResult *result;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 
@@ -43,11 +46,15 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
-- (void) viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     
-    if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined) {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+    //has user granted permission to photo library?
+    if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined)
+    {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status)
+        {
             if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self loadAssets];
@@ -96,26 +103,19 @@ static NSString * const reuseIdentifier = @"Cell";
     
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
     flowLayout.itemSize = CGSizeMake(cellSize, cellSize);
-    flowLayout.minimumInteritemSpacing = 0;
-    flowLayout.minimumLineSpacing = 0;
+    flowLayout.minimumInteritemSpacing = 5.0;
+    flowLayout.minimumLineSpacing = 1.0;
 }
 
-- (void) loadAssets {
+//fetch assets sorted by CreationDate
+- (void) loadAssets
+{
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
     
     self.result = [PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:options];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -153,17 +153,23 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
+    
     PHAsset *asset = self.result[indexPath.row];
     
-    cell.tag = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:flowLayout.itemSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage *result, NSDictionary *info) {
-        UICollectionViewCell *cellToUpdate = [collectionView cellForItemAtIndexPath:indexPath];
-        
-        if (cellToUpdate)
-        {
-            UIImageView *imageView = (UIImageView *)[cellToUpdate.contentView viewWithTag:imageViewTag];
-            imageView.image = result;
-        }
-    }];
+    cell.tag = [[PHImageManager defaultManager] requestImageForAsset:asset
+                    targetSize:flowLayout.itemSize
+                    contentMode:PHImageContentModeAspectFill
+                    options:nil
+                    resultHandler:^(UIImage *result, NSDictionary *info) {
+                        UICollectionViewCell *cellToUpdate = [collectionView cellForItemAtIndexPath:indexPath];
+                        
+                        if (cellToUpdate)
+                        {
+                            UIImageView *imageView = (UIImageView *)[cellToUpdate.contentView viewWithTag:imageViewTag];
+                            imageView.image = result;
+                        }
+                    }];
+    
     cell.backgroundColor = [UIColor yellowColor];
 
     return cell;
@@ -191,35 +197,5 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.delegate imageLibraryViewController:self didCompleteWithImage:croppedImage];
 }
 
-#pragma mark <UICollectionViewDelegate>
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 @end
