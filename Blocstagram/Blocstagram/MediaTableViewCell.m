@@ -47,6 +47,7 @@ static NSNumber *kernValue;
 
 @implementation MediaTableViewCell
 
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

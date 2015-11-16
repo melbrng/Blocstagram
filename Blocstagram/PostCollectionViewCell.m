@@ -17,9 +17,10 @@
 @implementation PostCollectionViewCell
 
 
--(id)initWithFrame:(CGRect)frame
+
+-(id)init
 {
-     if (self = [super initWithFrame:frame] )
+     if (self = [super init] )
      {
         static NSInteger imageViewTag = 1000;
         static NSInteger labelTag = 1001;
