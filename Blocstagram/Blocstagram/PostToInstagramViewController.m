@@ -38,6 +38,8 @@
         self.previewImageView = [[UIImageView alloc] initWithImage:self.sourceImage];
         
         self.photoFilterOperationQueue = [[NSOperationQueue alloc] init];
+     //   self.photoFilterOperationQueue.maxConcurrentOperationCount= 1;
+        
         
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.itemSize = CGSizeMake(44, 64);
@@ -145,13 +147,41 @@
 
 - (UICollectionViewCell*) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    PostCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+//    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
-    //set properties after deque the reusable cell
-    cell.filterCollectionView = collectionView;
+//    static NSInteger imageViewTag = 1000;
+//    static NSInteger labelTag = 1001;
+//    
+//    UIImageView *thumbnail = (UIImageView *)[cell.contentView viewWithTag:imageViewTag];
+//    UILabel *label = (UILabel *)[cell.contentView viewWithTag:labelTag];
+//    
+//    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.filterCollectionView.collectionViewLayout;
+//    CGFloat thumbnailEdgeSize = flowLayout.itemSize.width;
+//    
+//    if (!thumbnail) {
+//        thumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, thumbnailEdgeSize, thumbnailEdgeSize)];
+//        thumbnail.contentMode = UIViewContentModeScaleAspectFill;
+//        thumbnail.tag = imageViewTag;
+//        thumbnail.clipsToBounds = YES;
+//        
+//        [cell.contentView addSubview:thumbnail];
+//    }
+//    
+//    if (!label) {
+//        label = [[UILabel alloc] initWithFrame:CGRectMake(0, thumbnailEdgeSize, thumbnailEdgeSize, 20)];
+//        label.tag = labelTag;
+//        label.textAlignment = NSTextAlignmentCenter;
+//        label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:10];
+//        [cell.contentView addSubview:label];
+//    }
+//
+    
+    PostCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    cell.collectionViewLayout = (UICollectionViewFlowLayout *)self.filterCollectionView.collectionViewLayout;
+    cell.thumbnail.backgroundColor = [UIColor yellowColor];
     cell.thumbnail.image = self.filterImages[indexPath.row];
     cell.label.text = self.filterTitles[indexPath.row];
-    
+    NSLog(@"labeltext : %@",cell.label.text);
     return cell;
 }
 
@@ -225,16 +255,21 @@
 
 #pragma mark - Photo Filters
 
+//handles finished filters and add them to the collection view
 - (void) addCIImageToCollectionView:(CIImage *)CIImage withFilterTitle:(NSString *)filterTitle {
+    
+    //convert to UIImage - forces the UIImage to draw and saves it
     UIImage *image = [UIImage imageWithCIImage:CIImage scale:self.sourceImage.scale orientation:self.sourceImage.imageOrientation];
     
     if (image) {
+        
         // Decompress image
         UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
         [image drawAtPoint:CGPointZero];
         image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
+        //adds image on the main thread and alerts collection view that a new item is available
         dispatch_async(dispatch_get_main_queue(), ^{
             NSUInteger newIndex = self.filterImages.count;
             
@@ -246,11 +281,12 @@
     }
 }
 
-- (void) addFiltersToQueue {
+//add filters to NSOperationQueue for scheduling pieces of long-running code
+- (void) addFiltersToQueue
+{
     CIImage *sourceCIImage = [CIImage imageWithCGImage:self.sourceImage.CGImage];
     
     // Noir filter
-    
     [self.photoFilterOperationQueue addOperationWithBlock:^{
         CIFilter *noirFilter = [CIFilter filterWithName:@"CIPhotoEffectNoir"];
         

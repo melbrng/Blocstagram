@@ -11,7 +11,8 @@
 @interface PostCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *thumbnail;
+//@property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) UILabel *label;
-@property (strong, nonatomic) UICollectionView *filterCollectionView;
+@property (strong, nonatomic) UICollectionViewFlowLayout *collectionViewLayout;
 
 @end

@@ -18,17 +18,18 @@
 
 
 
--(id)init
+-(id)initWithFrame:(CGRect)frame
 {
-     if (self = [super init] )
+     if (self = [super initWithFrame:frame] )
      {
         static NSInteger imageViewTag = 1000;
         static NSInteger labelTag = 1001;
 
-        self.thumbnail = (UIImageView *)[self.contentView viewWithTag:imageViewTag];
+        self.thumbnail =  [[UIImageView alloc] init];
+        self.thumbnail = [self.contentView viewWithTag:imageViewTag];
         self.label = (UILabel *)[self.contentView viewWithTag:labelTag];
 
-        self.flowLayout = (UICollectionViewFlowLayout *)self.filterCollectionView.collectionViewLayout;
+     //   self.flowLayout = (UICollectionViewFlowLayout *)self.filterCollectionView;
         CGFloat thumbnailEdgeSize = self.flowLayout.itemSize.width;
 
         if (!self.thumbnail) {
