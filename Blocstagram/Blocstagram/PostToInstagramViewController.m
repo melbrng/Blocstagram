@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) UIImage *sourceImage;
 @property (nonatomic, strong) UIImageView *previewImageView;
+@property (nonatomic, strong) UIImage *thumbnailImage;
 
 @property (nonatomic, strong) NSOperationQueue *photoFilterOperationQueue;
 @property (nonatomic, strong) UICollectionView *filterCollectionView;
@@ -38,7 +39,7 @@
         self.previewImageView = [[UIImageView alloc] initWithImage:self.sourceImage];
         
         self.photoFilterOperationQueue = [[NSOperationQueue alloc] init];
-     //   self.photoFilterOperationQueue.maxConcurrentOperationCount= 1;
+        self.photoFilterOperationQueue.maxConcurrentOperationCount= 1;
         
         
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -285,6 +286,8 @@
 - (void) addFiltersToQueue
 {
     CIImage *sourceCIImage = [CIImage imageWithCGImage:self.sourceImage.CGImage];
+    CGFloat h = self.sourceImage.size.height;
+
     
     // Noir filter
     [self.photoFilterOperationQueue addOperationWithBlock:^{
@@ -295,94 +298,179 @@
             [self addCIImageToCollectionView:noirFilter.outputImage withFilterTitle:NSLocalizedString(@"Noir", @"Noir Filter")];
         }
     }];
-
-
-    // Boom filter
-
-    [self.photoFilterOperationQueue addOperationWithBlock:^{
-        CIFilter *boomFilter = [CIFilter filterWithName:@"CIPhotoEffectProcess"];
-        
-        if (boomFilter) {
-            [boomFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-            [self addCIImageToCollectionView:boomFilter.outputImage withFilterTitle:NSLocalizedString(@"Boom", @"Boom Filter")];
-        }
-    }];
-
-    // Warm filter
-
-    [self.photoFilterOperationQueue addOperationWithBlock:^{
-        CIFilter *warmFilter = [CIFilter filterWithName:@"CIPhotoEffectTransfer"];
-        
-        if (warmFilter) {
-            [warmFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-            [self addCIImageToCollectionView:warmFilter.outputImage withFilterTitle:NSLocalizedString(@"Warm", @"Warm Filter")];
-        }
-    }];
-
-    // Pixel filter
-
-    [self.photoFilterOperationQueue addOperationWithBlock:^{
-        CIFilter *pixelFilter = [CIFilter filterWithName:@"CIPixellate"];
-        
-        if (pixelFilter) {
-            [pixelFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-            [self addCIImageToCollectionView:pixelFilter.outputImage withFilterTitle:NSLocalizedString(@"Pixel", @"Pixel Filter")];
-        }
-    }];
-
-    // Moody filter
-
-    [self.photoFilterOperationQueue addOperationWithBlock:^{
-        CIFilter *moodyFilter = [CIFilter filterWithName:@"CISRGBToneCurveToLinear"];
-        
-        if (moodyFilter) {
-            [moodyFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-            [self addCIImageToCollectionView:moodyFilter.outputImage withFilterTitle:NSLocalizedString(@"Moody", @"Moody Filter")];
-        }
-    }];
     
-    // Drunk filter
+//    Create a Blurred Version of the image
+//    Set the input parameters of the CIGaussianBlur filter as follows:
+//    Set inputImage to the image you want to process.
+//    Set inputRadius to 10.0 (which is the default value).
     
     [self.photoFilterOperationQueue addOperationWithBlock:^{
-        CIFilter *drunkFilter = [CIFilter filterWithName:@"CIConvolution5X5"];
-        CIFilter *tiltFilter = [CIFilter filterWithName:@"CIStraightenFilter"];
+        CIFilter *gaussianBlueFilter = [CIFilter filterWithName:@"CIGaussianBlue"];
+
+        [gaussianBlueFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+        [gaussianBlueFilter setValue:@10.0 forKey:kCIAttributeTypeDistance];
+        CIImage *blurredImage = gaussianBlueFilter.outputImage;
+    
+        //    Create Two Linear Gradients
+        //    Create a linear gradient from a single color (such as green or gray) that varies from top to bottom. Set the input parameters of CILinearGradient as follows:
+        CIFilter *linearGradientFilter = [CIFilter filterWithName:@"CILinearGradient" keysAndValues:
+                                      @"inputPoint0", [CIVector vectorWithX:0 Y:(0.75 * h)],
+                                      @"inputPoint1", [CIVector vectorWithX:0 Y:(0.5 * h)],
+                                      @"inputColor0", [CIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0],
+                                      @"inputColor1", [CIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:0.0],
+                                      nil];
+
+
+        //    Create a green linear gradient that varies from bottom to top. Set the input parameters of CILinearGradient as follows:
+        CIFilter *greenGradientFilter = [CIFilter filterWithName:@"CILinearGradient" keysAndValues:
+                                      @"inputPoint0", [CIVector vectorWithX:0 Y:(0.25 * h)],
+                                      @"inputPoint1", [CIVector vectorWithX:0 Y:(0.5 * h)],
+                                      @"inputColor0", [CIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0],
+                                      @"inputColor1", [CIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:0.0],
+                                      nil];
+ 
+        //    Create a Mask from the Linear Gradients
+        //    Set inputImage to the first linear gradient you created.
+        CIImage *inputImage = linearGradientFilter.outputImage;
         
-        if (drunkFilter) {
-            [drunkFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-            
-            CIVector *drunkVector = [CIVector vectorWithString:@"[0.5 0 0 0 0 0 0 0 0 0.05 0 0 0 0 0 0 0 0 0 0 0.05 0 0 0 0.5]"];
-            [drunkFilter setValue:drunkVector forKeyPath:@"inputWeights"];
-            
-            CIImage *result = drunkFilter.outputImage;
-            
-            if (tiltFilter) {
-                [tiltFilter setValue:result forKeyPath:kCIInputImageKey];
-                [tiltFilter setValue:@0.2 forKeyPath:kCIInputAngleKey];
-                result = tiltFilter.outputImage;
-            }
-            
-            [self addCIImageToCollectionView:result withFilterTitle:NSLocalizedString(@"Drunk", @"Drunk Filter")];
-        }
-    }];
+        //  Set inputBackgroundImage to the second linear gradient you created.
+        CIImage *backgroundImage = greenGradientFilter.outputImage;
+        
+        //    To create a mask, set the input parameters of the CIAdditionCompositing filter as follows:
+        CIFilter *composite = [CIFilter filterWithName:@"CIAdditionCompositing"];
+        [composite setValue:inputImage forKey:kCIInputImageKey];
+        [composite setValue:backgroundImage forKey:kCIInputBackgroundImageKey];
+        CIImage *maskedImage = composite.outputImage;
+        
+//        Combine the Blurred Image, Source Image, and the Gradients
+//        The final step is to use the CIBlendWithMask filter, setting the input parameters as follows:
+//        Set inputImage to the blurred version of the image.
+//        Set inputBackgroundImage to the original, unprocessed image.
+//        Set inputMaskImage to the mask, that is, the combined gradients.
+//        The mask will affect only the outer portion of an image.
+//        The transparent portions of the mask will show through the original, unprocessed image. The opaque portions of the mask allow the blurred image to show.
+        
+        CIFilter *blend = [CIFilter filterWithName:@"CIBlendWithMask"];
+        [blend setValue:blurredImage forKey:kCIInputImageKey];
+        [blend setValue:sourceCIImage forKey:kCIInputBackgroundImageKey];
+        [blend setValue:maskedImage forKey:kCIInputMaskImageKey];
+        
+        CIImage *miniatureImage = blend.outputImage;
+        
+        [self addCIImageToCollectionView:miniatureImage withFilterTitle:NSLocalizedString(@"Miniature", @"Min Filter")];
+        
+        
+      }];
+
     
-    
-    // Film filter
+
+//    // Color Invert filter
+//    [self.photoFilterOperationQueue addOperationWithBlock:^{
+//        CIFilter *noirFilter = [CIFilter filterWithName:@"CIColorInvert"];
+//        
+//        if (noirFilter) {
+//            [noirFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+//            [self addCIImageToCollectionView:noirFilter.outputImage withFilterTitle:NSLocalizedString(@"Invert", @"Invert Filter")];
+//        }
+//    }];
+//    
+//    // Zoom Blur filter
+//    [self.photoFilterOperationQueue addOperationWithBlock:^{
+//        CIFilter *noirFilter = [CIFilter filterWithName:@"CIZoomBlur"];
+//        
+//        if (noirFilter) {
+//            [noirFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+//            [self addCIImageToCollectionView:noirFilter.outputImage withFilterTitle:NSLocalizedString(@"Blur", @"Blur Filter")];
+//        }
+//    }];
+//
+//
+//    // Boom filter
+//
+//    [self.photoFilterOperationQueue addOperationWithBlock:^{
+//        CIFilter *boomFilter = [CIFilter filterWithName:@"CIPhotoEffectProcess"];
+//        
+//        if (boomFilter) {
+//            [boomFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+//            [self addCIImageToCollectionView:boomFilter.outputImage withFilterTitle:NSLocalizedString(@"Boom", @"Boom Filter")];
+//        }
+//    }];
+//
+//    // Warm filter
+//
+//    [self.photoFilterOperationQueue addOperationWithBlock:^{
+//        CIFilter *warmFilter = [CIFilter filterWithName:@"CIPhotoEffectTransfer"];
+//        
+//        if (warmFilter) {
+//            [warmFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+//            [self addCIImageToCollectionView:warmFilter.outputImage withFilterTitle:NSLocalizedString(@"Warm", @"Warm Filter")];
+//        }
+//    }];
+//
+//    // Pixel filter
+//
+//    [self.photoFilterOperationQueue addOperationWithBlock:^{
+//        CIFilter *pixelFilter = [CIFilter filterWithName:@"CIPixellate"];
+//        
+//        if (pixelFilter) {
+//            [pixelFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+//            [self addCIImageToCollectionView:pixelFilter.outputImage withFilterTitle:NSLocalizedString(@"Pixel", @"Pixel Filter")];
+//        }
+//    }];
+//
+//    // Moody filter
+//
+//    [self.photoFilterOperationQueue addOperationWithBlock:^{
+//        CIFilter *moodyFilter = [CIFilter filterWithName:@"CISRGBToneCurveToLinear"];
+//        
+//        if (moodyFilter) {
+//            [moodyFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+//            [self addCIImageToCollectionView:moodyFilter.outputImage withFilterTitle:NSLocalizedString(@"Moody", @"Moody Filter")];
+//        }
+//    }];
+//    
+//    // Drunk filter
+//    
+//    [self.photoFilterOperationQueue addOperationWithBlock:^{
+//        CIFilter *drunkFilter = [CIFilter filterWithName:@"CIConvolution5X5"];
+//        CIFilter *tiltFilter = [CIFilter filterWithName:@"CIStraightenFilter"];
+//        
+//        if (drunkFilter) {
+//            [drunkFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+//            
+//            CIVector *drunkVector = [CIVector vectorWithString:@"[0.5 0 0 0 0 0 0 0 0 0.05 0 0 0 0 0 0 0 0 0 0 0.05 0 0 0 0.5]"];
+//            [drunkFilter setValue:drunkVector forKeyPath:@"inputWeights"];
+//            
+//            CIImage *result = drunkFilter.outputImage;
+//            
+//            if (tiltFilter) {
+//                [tiltFilter setValue:result forKeyPath:kCIInputImageKey];
+//                [tiltFilter setValue:@0.2 forKeyPath:kCIInputAngleKey];
+//                result = tiltFilter.outputImage;
+//            }
+//            
+//            [self addCIImageToCollectionView:result withFilterTitle:NSLocalizedString(@"Drunk", @"Drunk Filter")];
+//        }
+//    }];
+//    
+//    
+//    // Film filter
     
     [self.photoFilterOperationQueue addOperationWithBlock:^{
-        // #1
+        // CISepiaTone
         CIFilter *sepiaFilter = [CIFilter filterWithName:@"CISepiaTone"];
         [sepiaFilter setValue:@1 forKey:kCIInputIntensityKey];
         [sepiaFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-        
-        // #2
+    
+        // color TV static
         CIFilter *randomFilter = [CIFilter filterWithName:@"CIRandomGenerator"];
         
         CIImage *randomImage = [CIFilter filterWithName:@"CIRandomGenerator"].outputImage;
         
-        // #3
+        // stretch the image a little bit horizontally, and a lot vertically
         CIImage *otherRandomImage = [randomImage imageByApplyingTransform:CGAffineTransformMakeScale(1.5, 25.0)];
         
-        // #4
+        // extract white specks
         CIFilter *whiteSpecks = [CIFilter filterWithName:@"CIColorMatrix" keysAndValues:kCIInputImageKey, randomImage,
                                  @"inputRVector", [CIVector vectorWithX:0.0 Y:1.0 Z:0.0 W:0.0],
                                  @"inputGVector", [CIVector vectorWithX:0.0 Y:1.0 Z:0.0 W:0.0],
@@ -390,7 +478,7 @@
                                  @"inputAVector", [CIVector vectorWithX:0.0 Y:0.01 Z:0.0 W:0.0],
                                  @"inputBiasVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
                                  nil];
-        
+        //extract vertical scratches
         CIFilter *darkScratches = [CIFilter filterWithName:@"CIColorMatrix" keysAndValues:kCIInputImageKey, otherRandomImage,
                                    @"inputRVector", [CIVector vectorWithX:3.659f Y:0.0 Z:0.0 W:0.0],
                                    @"inputGVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
@@ -399,25 +487,25 @@
                                    @"inputBiasVector", [CIVector vectorWithX:0.0 Y:1.0 Z:1.0 W:1.0],
                                    nil];
         
-        // #5
+        // combine the layers
         CIFilter *minimumComponent = [CIFilter filterWithName:@"CIMinimumComponent"];
         CIFilter *composite = [CIFilter filterWithName:@"CIMultiplyCompositing"];
         
-        // #6
+        // ensure that those filters all exist
         if (sepiaFilter && randomFilter && whiteSpecks && darkScratches && minimumComponent && composite) {
-            // #7
+            // Apply the sepia filter
             CIImage *sepiaImage = sepiaFilter.outputImage;
             
-            // #8
+            // we crop it to the source image's size since the randomly generated image is infinite
             CIImage *whiteSpecksImage = [whiteSpecks.outputImage imageByCroppingToRect:sourceCIImage.extent];
             
-            // #9
+            // create sepiaPlusWhiteSpecksImage by using CISourceOverCompositing to overlay the white specks on top of the sepia-toned image
             CIImage *sepiaPlusWhiteSpecksImage = [CIFilter filterWithName:@"CISourceOverCompositing" keysAndValues:
                                                   kCIInputImageKey, whiteSpecksImage,
                                                   kCIInputBackgroundImageKey, sepiaImage,
                                                   nil].outputImage;
             
-            // #10
+            // create darkScratchesImage and add it on top of the white specks
             CIImage *darkScratchesImage = [darkScratches.outputImage imageByCroppingToRect:sourceCIImage.extent];
             
             [minimumComponent setValue:darkScratchesImage forKey:kCIInputImageKey];

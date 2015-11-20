@@ -33,7 +33,7 @@
         CGFloat thumbnailEdgeSize = self.flowLayout.itemSize.width;
 
         if (!self.thumbnail) {
-            self.thumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, thumbnailEdgeSize, thumbnailEdgeSize)];
+            self.thumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
             self.thumbnail.contentMode = UIViewContentModeScaleAspectFill;
             self.thumbnail.tag = imageViewTag;
             self.thumbnail.clipsToBounds = YES;
@@ -42,7 +42,7 @@
         }
 
         if (!self.label) {
-            self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, thumbnailEdgeSize, thumbnailEdgeSize, 20)];
+            self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, thumbnailEdgeSize, 50, 20)];
             self.label.tag = labelTag;
             self.label.textAlignment = NSTextAlignmentCenter;
             self.label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:10];
