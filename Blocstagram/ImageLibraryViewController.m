@@ -57,7 +57,6 @@ static NSString * const reuseIdentifier = @"Cell";
             if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self loadAssets];
-                    [self.collectionView reloadData];
                 });
             }
         }];
@@ -97,6 +96,8 @@ static NSString * const reuseIdentifier = @"Cell";
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
     
     self.result = [PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:options];
+    
+    [self.collectionView reloadData];
 }
 
 
@@ -142,6 +143,7 @@ static NSString * const reuseIdentifier = @"Cell";
                     contentMode:PHImageContentModeAspectFill
                     options:nil
                     resultHandler:^(UIImage *result, NSDictionary *info) {
+                        
                         UICollectionViewCell *cellToUpdate = [collectionView cellForItemAtIndexPath:indexPath];
                         
                         if (cellToUpdate)

@@ -63,7 +63,8 @@
     }
 }
 
-- (void) viewWillLayoutSubviews {
+- (void) viewWillLayoutSubviews
+{
     [super viewWillLayoutSubviews];
     
     CGSize size = self.view.frame.size;
@@ -83,7 +84,8 @@
     
     [self recalculateZoomScale];
     
-    if (self.hasLoadedOnce == NO) {
+    if (self.hasLoadedOnce == NO)
+    {
         self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
         self.hasLoadedOnce = YES;
     }

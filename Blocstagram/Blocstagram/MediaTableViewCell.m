@@ -30,6 +30,10 @@
 @property (nonatomic, strong) LikeButton *likeButton;
 @property (nonatomic, strong) ComposeCommentView *commentView;
 
+@property (nonatomic, strong) NSArray *horizontallyRegularConstraints;
+@property (nonatomic, strong) NSArray *horizontallyCompactConstraints;
+
+
 @property (nonatomic, strong) UILabel *numberOfLikesLabel;
 
 
@@ -103,7 +107,31 @@ static NSNumber *kernValue;
         
         NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel, _likeButton, _numberOfLikesLabel,_commentView);
         
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mediaImageView]|" options:kNilOptions metrics:nil views:viewDictionary]];
+        self.horizontallyCompactConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mediaImageView]|" options:kNilOptions metrics:nil views:viewDictionary];
+        
+        NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:_mediaImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:320];
+        NSLayoutConstraint *centerConstraint = [NSLayoutConstraint constraintWithItem:self.contentView
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                            relatedBy:0
+                                                                               toItem:_mediaImageView
+                                                                            attribute:NSLayoutAttributeCenterX
+                                                                           multiplier:1
+                                                                             constant:0];
+        
+        self.horizontallyRegularConstraints = @[widthConstraint, centerConstraint];
+        
+        
+        if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact)
+        {
+            /* It's compact! */
+            [self.contentView addConstraints:self.horizontallyCompactConstraints];
+        }
+        else if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
+        {
+            /* It's regular! */
+            [self.contentView addConstraints:self.horizontallyRegularConstraints];
+        }
+        
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_usernameAndCaptionLabel][_numberOfLikesLabel(==38)][_likeButton(==38)]|" options:kNilOptions metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentView]|" options:kNilOptions metrics:nil views:viewDictionary]];
@@ -323,7 +351,16 @@ static NSNumber *kernValue;
     
     if (self.mediaItem.image.size.width > 0 && CGRectGetWidth(self.contentView.bounds) > 0)
     {
-        self.imageHeightConstraint.constant = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
+        if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact)
+        {
+            /* It's compact! */
+            self.imageHeightConstraint.constant = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
+        }
+        else if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
+        {
+            /* It's regular! */
+            self.imageHeightConstraint.constant = 320;
+        }
     }
     else
     {
@@ -333,17 +370,37 @@ static NSNumber *kernValue;
     self.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(self.bounds)/2.0, 0, CGRectGetWidth(self.bounds)/2.0);
 }
 
+- (void) traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact)
+    {
+        /* It's compact! */
+        [self.contentView removeConstraints:self.horizontallyRegularConstraints];
+        [self.contentView addConstraints:self.horizontallyCompactConstraints];
+    }
+    else if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular)
+    {
+        /* It's regular */
+        [self.contentView removeConstraints:self.horizontallyCompactConstraints];
+        [self.contentView addConstraints:self.horizontallyRegularConstraints];
+    }
+}
 
-+ (CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width {
+ + (CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width traitCollection:(UITraitCollection *) traitCollection
+{
     
     // Make a cell
     MediaTableViewCell *layoutCell = [[MediaTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"layoutCell"];
     
-    // Set it to the given width, and the maximum possible height
-    layoutCell.frame = CGRectMake(0, 0, CGRectGetWidth(layoutCell.frame), CGRectGetHeight(layoutCell.frame));
     
     // Give it the media item
     layoutCell.mediaItem = mediaItem;
+    
+    // Set it to the given width, and the maximum possible height
+    layoutCell.frame = CGRectMake(0, 0, width, CGRectGetHeight(layoutCell.frame));
+
+    
+    layoutCell.overrideTraitCollection = traitCollection;
     
     // Make it adjust the image view and labels
     [layoutCell setNeedsLayout];
@@ -352,6 +409,18 @@ static NSNumber *kernValue;
     // The height will be wherever the bottom of the comment view is, plus a little padding
     return CGRectGetMaxY(layoutCell.commentView.frame) + 20.0f;
 }
+
+//override traitCollection
+- (UITraitCollection *) traitCollection
+{
+    if (self.overrideTraitCollection)
+    {
+        return self.overrideTraitCollection;
+    }
+    
+    return [super traitCollection];
+}
+
 
 #pragma mark - Image View Gestures
 
