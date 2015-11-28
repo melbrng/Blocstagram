@@ -41,7 +41,9 @@
     UIWindow *window = [[UIWindow alloc] init];
     window.frame = [[UIApplication sharedApplication] statusBarFrame];
     window.windowLevel = UIWindowLevelStatusBar + 10.0f;
+    //window.windowLevel = UIWindowLevelNormal + 10.0f;
     window.userInteractionEnabled = YES;
+    window.layer.borderWidth = 20.0f;
     [window makeKeyAndVisible];
     
     self.borderTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(borderTapFired:)];
@@ -51,9 +53,7 @@
     //create scroll view
     self.scrollView = [UIScrollView new];
     self.scrollView.delegate = self;
-//    self.scrollView.backgroundColor = [UIColor whiteColor];
-//    self.scrollView.layer.borderWidth = 30;
-//    self.scrollView.layer.borderColor = [UIColor grayColor].CGColor;
+    self.scrollView.backgroundColor = [UIColor grayColor];
     
     [self.view addSubview:self.scrollView];
     
@@ -67,18 +67,16 @@
     self.scrollView.contentSize = self.media.image.size;
     
     //initialize tap, doubletap, borderTap
-   // self.tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
+    self.tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
     
     self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapFired:)];
     self.doubleTap.numberOfTapsRequired = 2;
-    
-
     
 //    requireGestureRecognizerToFail: allows one gesture recognizer to wait for another gesture recognizer to fail before it succeeds.
 //    Without this line, it would be impossible to double-tap because the single tap gesture recognizer would fire before the
 //    user had a chance to tap twice.
     [self.tap requireGestureRecognizerToFail:self.doubleTap];
-
+    [self.scrollView addGestureRecognizer:self.tap];
     [self.scrollView addGestureRecognizer:self.doubleTap];
     
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeSystem];
