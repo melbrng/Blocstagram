@@ -156,7 +156,6 @@
     
     PostCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     cell.collectionViewLayout = (UICollectionViewFlowLayout *)self.filterCollectionView.collectionViewLayout;
-    cell.thumbnail.backgroundColor = [UIColor yellowColor];
     cell.thumbnail.image = self.filterImages[indexPath.row];
     cell.label.text = self.filterTitles[indexPath.row];
 
@@ -287,11 +286,11 @@
 //    Set inputRadius to 10.0 (which is the default value).
     
     [self.photoFilterOperationQueue addOperationWithBlock:^{
-        CIFilter *gaussianBlueFilter = [CIFilter filterWithName:@"CIGaussianBlue"];
+        CIFilter *gaussianBlurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
 
-        [gaussianBlueFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-        [gaussianBlueFilter setValue:@30.0 forKey:kCIAttributeTypeDistance];
-        CIImage *blurredImage = gaussianBlueFilter.outputImage;
+        [gaussianBlurFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+        [gaussianBlurFilter setValue:@10.0 forKey:@"inputRadius"];
+        CIImage *blurredImage = gaussianBlurFilter.outputImage;
     
         //    Create Two Linear Gradients
         //    Create a linear gradient from a single color (such as green or gray) that varies from top to bottom. Set the input parameters of CILinearGradient as follows:
