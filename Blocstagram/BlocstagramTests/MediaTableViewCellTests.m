@@ -30,7 +30,7 @@
     [super tearDown];
 }
 
-- (void)testExample {
+- (void)testHeightForMediaItem {
     
     NSDictionary *sourceDictionary= @{@"id": @"9999999",
                                       @"images" : @{@"standard_resolution" : @{@"url" : @"http://www.melbo.co"}},
@@ -49,7 +49,7 @@
     mediaItem.image = image;
     
     CGFloat mediaItemHeight = [MediaTableViewCell heightForMediaItem:mediaItem width:44];
-    XCTAssertEqual(mediaItemHeight, 371, @"Item height should be 398");
+    XCTAssertEqual(mediaItemHeight, 371, @"Item height should be 371");
 }
 
 - (void)testPerformanceExample {
