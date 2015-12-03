@@ -22,23 +22,6 @@
 
 - (void)setUp {
     [super setUp];
-    self.randomMediaItems = [NSMutableArray array];
-    
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    
-    for (int i = 1; i <= 10; i++) {
-        NSString *imageName = [bundle pathForResource:[NSString stringWithFormat:@"%d", i] ofType:@"png"];
-        UIImage *image = [UIImage imageNamed:imageName];
-        
-        if (image) {
-            Media *media = [[Media alloc] init];
-            media.image = image;
-            
-            media.comments = [NSArray arrayWithObjects:@"Test Comment", nil];
-            
-            [self.randomMediaItems addObject:media];
-        }
-    }
     
 }
 
@@ -49,16 +32,24 @@
 
 - (void)testExample {
     
-    for(Media *mediaItem in self.randomMediaItems)
-    {
-        CGFloat mediaHeight = mediaItem.image.size.height;
-        
-        CGFloat cellHeight =[MediaTableViewCell heightForMediaItem:mediaItem width:500.0];
-
-        
-    }
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+    NSDictionary *sourceDictionary= @{@"id": @"9999999",
+                                      @"images" : @{@"standard_resolution" : @{@"url" : @"http://www.melbo.co"}},
+                                      @"user_had_liked" : @"0",
+                                      @"caption" : @{@"text" : @"texttesxttext"},
+                                      @"user" : @{@"id" : @"1234567",
+                                                  @"username" : @"Freckles",
+                                                  @"full_name" : @"Homer Simpson",
+                                                  @"profile_picture" : @"@http://www.example.com/example.jpg"}
+                                      };
+    Media *mediaItem = [[Media alloc] initWithDictionary:sourceDictionary];
+    
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *imageName = [bundle pathForResource:[NSString stringWithFormat:@"%d", 1] ofType:@"png"];
+    UIImage *image = [UIImage imageNamed:imageName];
+    mediaItem.image = image;
+    
+    CGFloat mediaItemHeight = [MediaTableViewCell heightForMediaItem:mediaItem width:44];
+    XCTAssertEqual(mediaItemHeight, 371, @"Item height should be 398");
 }
 
 - (void)testPerformanceExample {
