@@ -41,7 +41,6 @@
     UIWindow *window = [[UIWindow alloc] init];
     window.frame = [[UIApplication sharedApplication] statusBarFrame];
     window.windowLevel = UIWindowLevelStatusBar + 10.0f;
-    //window.windowLevel = UIWindowLevelNormal + 10.0f;
     window.userInteractionEnabled = YES;
     window.layer.borderWidth = 20.0f;
     [window makeKeyAndVisible];

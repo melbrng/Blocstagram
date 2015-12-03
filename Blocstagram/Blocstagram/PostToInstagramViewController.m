@@ -104,10 +104,10 @@
     }
 
     
-    self.previewImageView.frame = CGRectMake(0, self.topLayoutGuide.length, edgeSize, edgeSize);
+    self.previewImageView.frame = CGRectMake(0, self.topLayoutGuide.length, edgeSize, edgeSize );
     
     CGFloat buttonHeight = 50;
-    CGFloat buffer = 10;
+    CGFloat buffer = 50;
     
     CGFloat filterViewYOrigin = CGRectGetMaxY(self.previewImageView.frame) + buffer;
     CGFloat filterViewHeight;
@@ -372,54 +372,54 @@
         CIImage *randomImage = [CIFilter filterWithName:@"CIRandomGenerator"].outputImage;
         
         // #3
-        CIImage *otherRandomImage = [randomImage imageByApplyingTransform:CGAffineTransformMakeScale(1.5, 25.0)];
-        
-        // #4
-        CIFilter *whiteSpecks = [CIFilter filterWithName:@"CIColorMatrix" keysAndValues:kCIInputImageKey, randomImage,
-                                 @"inputRVector", [CIVector vectorWithX:0.0 Y:1.0 Z:0.0 W:0.0],
-                                 @"inputGVector", [CIVector vectorWithX:0.0 Y:1.0 Z:0.0 W:0.0],
-                                 @"inputBVector", [CIVector vectorWithX:0.0 Y:1.0 Z:0.0 W:0.0],
-                                 @"inputAVector", [CIVector vectorWithX:0.0 Y:0.01 Z:0.0 W:0.0],
-                                 @"inputBiasVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
-                                 nil];
-        
-        CIFilter *darkScratches = [CIFilter filterWithName:@"CIColorMatrix" keysAndValues:kCIInputImageKey, otherRandomImage,
-                                   @"inputRVector", [CIVector vectorWithX:3.659f Y:0.0 Z:0.0 W:0.0],
-                                   @"inputGVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
-                                   @"inputBVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
-                                   @"inputAVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
-                                   @"inputBiasVector", [CIVector vectorWithX:0.0 Y:1.0 Z:1.0 W:1.0],
-                                   nil];
-        
-        // #5
-        CIFilter *minimumComponent = [CIFilter filterWithName:@"CIMinimumComponent"];
-        CIFilter *composite = [CIFilter filterWithName:@"CIMultiplyCompositing"];
-        
-        // #6
-        if (sepiaFilter && randomFilter && whiteSpecks && darkScratches && minimumComponent && composite) {
-            // #7
-            CIImage *sepiaImage = sepiaFilter.outputImage;
-            
-            // #8
-            CIImage *whiteSpecksImage = [whiteSpecks.outputImage imageByCroppingToRect:sourceCIImage.extent];
-            
-            // #9
-            CIImage *sepiaPlusWhiteSpecksImage = [CIFilter filterWithName:@"CISourceOverCompositing" keysAndValues:
-                                                  kCIInputImageKey, whiteSpecksImage,
-                                                  kCIInputBackgroundImageKey, sepiaImage,
-                                                  nil].outputImage;
-            
-            // #10
-            CIImage *darkScratchesImage = [darkScratches.outputImage imageByCroppingToRect:sourceCIImage.extent];
-            
-            [minimumComponent setValue:darkScratchesImage forKey:kCIInputImageKey];
-            darkScratchesImage = minimumComponent.outputImage;
-            
-            [composite setValue:sepiaPlusWhiteSpecksImage forKey:kCIInputImageKey];
-            [composite setValue:darkScratchesImage forKey:kCIInputBackgroundImageKey];
-            
-            [self addCIImageToCollectionView:composite.outputImage withFilterTitle:NSLocalizedString(@"Film", @"Film Filter")];
-        }
+//        CIImage *otherRandomImage = [randomImage imageByApplyingTransform:CGAffineTransformMakeScale(1.5, 25.0)];
+//        
+//        // #4
+//        CIFilter *whiteSpecks = [CIFilter filterWithName:@"CIColorMatrix" keysAndValues:kCIInputImageKey, randomImage,
+//                                 @"inputRVector", [CIVector vectorWithX:0.0 Y:1.0 Z:0.0 W:0.0],
+//                                 @"inputGVector", [CIVector vectorWithX:0.0 Y:1.0 Z:0.0 W:0.0],
+//                                 @"inputBVector", [CIVector vectorWithX:0.0 Y:1.0 Z:0.0 W:0.0],
+//                                 @"inputAVector", [CIVector vectorWithX:0.0 Y:0.01 Z:0.0 W:0.0],
+//                                 @"inputBiasVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
+//                                 nil];
+//        
+//        CIFilter *darkScratches = [CIFilter filterWithName:@"CIColorMatrix" keysAndValues:kCIInputImageKey, otherRandomImage,
+//                                   @"inputRVector", [CIVector vectorWithX:3.659f Y:0.0 Z:0.0 W:0.0],
+//                                   @"inputGVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
+//                                   @"inputBVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
+//                                   @"inputAVector", [CIVector vectorWithX:0.0 Y:0.0 Z:0.0 W:0.0],
+//                                   @"inputBiasVector", [CIVector vectorWithX:0.0 Y:1.0 Z:1.0 W:1.0],
+//                                   nil];
+//        
+//        // #5
+//        CIFilter *minimumComponent = [CIFilter filterWithName:@"CIMinimumComponent"];
+//        CIFilter *composite = [CIFilter filterWithName:@"CIMultiplyCompositing"];
+//        
+//        // #6
+//        if (sepiaFilter && randomFilter && whiteSpecks && darkScratches && minimumComponent && composite) {
+//            // #7
+//            CIImage *sepiaImage = sepiaFilter.outputImage;
+//            
+//            // #8
+//            CIImage *whiteSpecksImage = [whiteSpecks.outputImage imageByCroppingToRect:sourceCIImage.extent];
+//            
+//            // #9
+//            CIImage *sepiaPlusWhiteSpecksImage = [CIFilter filterWithName:@"CISourceOverCompositing" keysAndValues:
+//                                                  kCIInputImageKey, whiteSpecksImage,
+//                                                  kCIInputBackgroundImageKey, sepiaImage,
+//                                                  nil].outputImage;
+//            
+//            // #10
+//            CIImage *darkScratchesImage = [darkScratches.outputImage imageByCroppingToRect:sourceCIImage.extent];
+//            
+//            [minimumComponent setValue:darkScratchesImage forKey:kCIInputImageKey];
+//            darkScratchesImage = minimumComponent.outputImage;
+//            
+//            [composite setValue:sepiaPlusWhiteSpecksImage forKey:kCIInputImageKey];
+//            [composite setValue:darkScratchesImage forKey:kCIInputBackgroundImageKey];
+//            
+//            [self addCIImageToCollectionView:composite.outputImage withFilterTitle:NSLocalizedString(@"Film", @"Film Filter")];
+//        }
     }];
 
 }
