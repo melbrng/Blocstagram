@@ -53,7 +53,7 @@
     {
         CGFloat mediaHeight = mediaItem.image.size.height;
         
-        CGFloat cellHeight =[MediaTableViewCell heightForMediaItem:mediaItem width:10.0];
+        CGFloat cellHeight =[MediaTableViewCell heightForMediaItem:mediaItem width:500.0];
 
         
     }
