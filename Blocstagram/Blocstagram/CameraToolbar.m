@@ -92,7 +92,10 @@
     NSArray *purpleViewHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[_leftButton][_purpleView][_rightButton]" options:NSLayoutFormatAlignAllBottom metrics:nil views:viewDictionary];
     NSArray *purpleViewVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_purpleView]" options:kNilOptions metrics:nil views:viewDictionary];
     
-    NSArray *allConstraintArrays = @[allButtonsHorizontalConstraints, leftButtonVerticalConstraints, cameraButtonVerticalConstraints, rightButtonVerticalConstraints, whiteViewHorizontalConstraints, whiteViewVerticalConstraints, purpleViewHorizontalConstraints, purpleViewVerticalConstraints];
+    NSArray *allConstraintArrays = @[allButtonsHorizontalConstraints,
+                                     leftButtonVerticalConstraints, cameraButtonVerticalConstraints,
+                                     rightButtonVerticalConstraints,
+                                     whiteViewHorizontalConstraints, whiteViewVerticalConstraints, purpleViewHorizontalConstraints, purpleViewVerticalConstraints];
     
     for (NSArray *constraintsArray in allConstraintArrays) {
         for (NSLayoutConstraint *constraint in constraintsArray) {
