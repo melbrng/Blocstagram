@@ -22,6 +22,7 @@
 @property (nonatomic, weak) UIView *lastSelectedCommentView;
 @property (nonatomic, assign) CGFloat lastKeyboardAdjustment;
 
+
 @end
 
 @implementation ImagesTableViewController

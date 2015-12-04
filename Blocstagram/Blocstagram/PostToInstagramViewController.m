@@ -107,7 +107,7 @@
     self.previewImageView.frame = CGRectMake(0, self.topLayoutGuide.length, edgeSize, edgeSize );
     
     CGFloat buttonHeight = 50;
-    CGFloat buffer = 50;
+    CGFloat buffer = 10;
     
     CGFloat filterViewYOrigin = CGRectGetMaxY(self.previewImageView.frame) + buffer;
     CGFloat filterViewHeight;

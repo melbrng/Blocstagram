@@ -8,6 +8,7 @@
 
 #import "MediaFullScreenViewController.h"
 #import "Media.h"
+#import "AppDelegate.h"
 
 @interface MediaFullScreenViewController () <UIScrollViewDelegate>
 
@@ -38,16 +39,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIWindow *window = [[UIWindow alloc] init];
-    window.frame = [[UIApplication sharedApplication] statusBarFrame];
-    window.windowLevel = UIWindowLevelStatusBar + 10.0f;
-    window.userInteractionEnabled = YES;
-    window.layer.borderWidth = 20.0f;
-    [window makeKeyAndVisible];
-    
+   // UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+   
+   // window.userInteractionEnabled = YES;
     self.borderTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(borderTapFired:)];
+     [[[UIApplication sharedApplication] keyWindow] addGestureRecognizer:self.borderTap];
+   // [window addGestureRecognizer:self.borderTap];
     
-    [window addGestureRecognizer:self.borderTap];
 
     //create scroll view
     self.scrollView = [UIScrollView new];
@@ -92,10 +90,16 @@
 
 }
 
-- (void) viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     
     [self centerScrollView];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [[[UIApplication sharedApplication] keyWindow] removeGestureRecognizer:self.borderTap];
 }
 
 - (void) viewWillLayoutSubviews {
@@ -170,6 +174,8 @@
 - (void) borderTapFired:(UITapGestureRecognizer *)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+
+    
 }
 
 - (void) doubleTapFired:(UITapGestureRecognizer *)sender
