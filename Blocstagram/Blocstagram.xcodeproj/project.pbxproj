@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		431D4B5A1C0509C800BD03A3 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 431D4B591C0509C800BD03A3 /* UserTests.m */; };
 		43125FE01BFA997700D3429A /* PostCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43125FDF1BFA997700D3429A /* PostCollectionViewCell.m */; };
+		431D4B5A1C0509C800BD03A3 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 431D4B591C0509C800BD03A3 /* UserTests.m */; };
 		437AFF811BF1530300105C21 /* CameraToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 437AFF801BF1530300105C21 /* CameraToolbar.m */; };
 		437AFF871BF1581B00105C21 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 437AFF861BF1581B00105C21 /* CameraViewController.m */; };
 		437AFF8A1BF15B3E00105C21 /* UIImage+ImageUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 437AFF891BF15B3E00105C21 /* UIImage+ImageUtilities.m */; };
@@ -69,9 +69,9 @@
 
 /* Begin PBXFileReference section */
 		370C3740C6203857BF098F1A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		431D4B591C0509C800BD03A3 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
 		43125FDE1BFA997700D3429A /* PostCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostCollectionViewCell.h; path = ../PostCollectionViewCell.h; sourceTree = "<group>"; };
 		43125FDF1BFA997700D3429A /* PostCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostCollectionViewCell.m; path = ../PostCollectionViewCell.m; sourceTree = "<group>"; };
+		431D4B591C0509C800BD03A3 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
 		437AFF7F1BF1530300105C21 /* CameraToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraToolbar.h; sourceTree = "<group>"; };
 		437AFF801BF1530300105C21 /* CameraToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraToolbar.m; sourceTree = "<group>"; };
 		437AFF851BF1581B00105C21 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
@@ -165,6 +165,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43407AE51C12372000A4A89A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				437C2D391BEA8CA9001AE9D7 /* LikeButton.h */,
+				437C2D3A1BEA8CA9001AE9D7 /* LikeButton.m */,
+				437AFF7F1BF1530300105C21 /* CameraToolbar.h */,
+				437AFF801BF1530300105C21 /* CameraToolbar.m */,
+				437AFF851BF1581B00105C21 /* CameraViewController.h */,
+				437AFF861BF1581B00105C21 /* CameraViewController.m */,
+				437AFF881BF15B3E00105C21 /* UIImage+ImageUtilities.h */,
+				437AFF891BF15B3E00105C21 /* UIImage+ImageUtilities.m */,
+				43D58C5B1BCC5527002907C7 /* User.h */,
+				43D58C5C1BCC5527002907C7 /* User.m */,
+				43D58C5E1BCC5534002907C7 /* Media.h */,
+				43D58C5F1BCC5534002907C7 /* Media.m */,
+				43D58C611BCC5541002907C7 /* Comment.h */,
+				43D58C621BCC5541002907C7 /* Comment.m */,
+				43D58C641BCC5612002907C7 /* DataSource.h */,
+				43D58C651BCC5612002907C7 /* DataSource.m */,
+				437ED1B31BF7C56100FFC158 /* CropBox.h */,
+				437ED1B21BF7C56100FFC158 /* CropBox.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		43407AE61C12376900A4A89A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				437ED1B61BF7C5B500FFC158 /* ImageLibraryViewController.h */,
+				437ED1B71BF7C5B500FFC158 /* ImageLibraryViewController.m */,
+				437ED1B11BF7C56100FFC158 /* CropImageViewController.h */,
+				437ED1B01BF7C56100FFC158 /* CropImageViewController.m */,
+				437ED1B91BF7F35200FFC158 /* PostToInstagramViewController.h */,
+				437ED1BA1BF7F35200FFC158 /* PostToInstagramViewController.m */,
+				43CA630F1BDEB5AF008606F1 /* LoginViewController.h */,
+				43CA63101BDEB5AF008606F1 /* LoginViewController.m */,
+				43D58C581BCC373C002907C7 /* ImagesTableViewController.h */,
+				43D58C591BCC373C002907C7 /* ImagesTableViewController.m */,
+				43CA63121BE2CBDB008606F1 /* MediaFullScreenViewController.h */,
+				43CA63131BE2CBDB008606F1 /* MediaFullScreenViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		43407AE71C12379E00A4A89A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				43894FB51BD1705D00DB9771 /* MediaTableViewCell.h */,
+				43894FB61BD1705D00DB9771 /* MediaTableViewCell.m */,
+				437C2D361BEA7FA4001AE9D7 /* CircleSpinnerView.h */,
+				437C2D371BEA7FA4001AE9D7 /* CircleSpinnerView.m */,
+				43125FDE1BFA997700D3429A /* PostCollectionViewCell.h */,
+				43125FDF1BFA997700D3429A /* PostCollectionViewCell.m */,
+				43FE20921BED5F76009D0D56 /* ComposeCommentView.h */,
+				43FE20931BED5F76009D0D56 /* ComposeCommentView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		439BD4EE1C0FAB1D002D1FC3 /* instaphotos */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,49 +267,14 @@
 		43B60DA61BCC3166004FB168 /* Blocstagram */ = {
 			isa = PBXGroup;
 			children = (
-				43FE20921BED5F76009D0D56 /* ComposeCommentView.h */,
-				43FE20931BED5F76009D0D56 /* ComposeCommentView.m */,
 				43B60DAA1BCC3166004FB168 /* AppDelegate.h */,
 				43B60DAB1BCC3166004FB168 /* AppDelegate.m */,
-				43CA630F1BDEB5AF008606F1 /* LoginViewController.h */,
-				43CA63101BDEB5AF008606F1 /* LoginViewController.m */,
-				43D58C581BCC373C002907C7 /* ImagesTableViewController.h */,
-				43D58C591BCC373C002907C7 /* ImagesTableViewController.m */,
-				43CA63121BE2CBDB008606F1 /* MediaFullScreenViewController.h */,
-				43CA63131BE2CBDB008606F1 /* MediaFullScreenViewController.m */,
 				43B60DB31BCC3166004FB168 /* Assets.xcassets */,
 				43B60DB51BCC3166004FB168 /* LaunchScreen.storyboard */,
 				43B60DB81BCC3166004FB168 /* Info.plist */,
-				43D58C5B1BCC5527002907C7 /* User.h */,
-				43D58C5C1BCC5527002907C7 /* User.m */,
-				43D58C5E1BCC5534002907C7 /* Media.h */,
-				43D58C5F1BCC5534002907C7 /* Media.m */,
-				43D58C611BCC5541002907C7 /* Comment.h */,
-				43D58C621BCC5541002907C7 /* Comment.m */,
-				43D58C641BCC5612002907C7 /* DataSource.h */,
-				43D58C651BCC5612002907C7 /* DataSource.m */,
-				43894FB51BD1705D00DB9771 /* MediaTableViewCell.h */,
-				43894FB61BD1705D00DB9771 /* MediaTableViewCell.m */,
-				437C2D361BEA7FA4001AE9D7 /* CircleSpinnerView.h */,
-				437C2D371BEA7FA4001AE9D7 /* CircleSpinnerView.m */,
-				437C2D391BEA8CA9001AE9D7 /* LikeButton.h */,
-				437C2D3A1BEA8CA9001AE9D7 /* LikeButton.m */,
-				437AFF7F1BF1530300105C21 /* CameraToolbar.h */,
-				437AFF801BF1530300105C21 /* CameraToolbar.m */,
-				437AFF851BF1581B00105C21 /* CameraViewController.h */,
-				437AFF861BF1581B00105C21 /* CameraViewController.m */,
-				437AFF881BF15B3E00105C21 /* UIImage+ImageUtilities.h */,
-				437AFF891BF15B3E00105C21 /* UIImage+ImageUtilities.m */,
-				437ED1B61BF7C5B500FFC158 /* ImageLibraryViewController.h */,
-				437ED1B71BF7C5B500FFC158 /* ImageLibraryViewController.m */,
-				437ED1B11BF7C56100FFC158 /* CropImageViewController.h */,
-				437ED1B01BF7C56100FFC158 /* CropImageViewController.m */,
-				437ED1B31BF7C56100FFC158 /* CropBox.h */,
-				437ED1B21BF7C56100FFC158 /* CropBox.m */,
-				437ED1B91BF7F35200FFC158 /* PostToInstagramViewController.h */,
-				437ED1BA1BF7F35200FFC158 /* PostToInstagramViewController.m */,
-				43125FDE1BFA997700D3429A /* PostCollectionViewCell.h */,
-				43125FDF1BFA997700D3429A /* PostCollectionViewCell.m */,
+				43407AE51C12372000A4A89A /* Model */,
+				43407AE71C12379E00A4A89A /* View */,
+				43407AE61C12376900A4A89A /* Controller */,
 				43B60DA71BCC3166004FB168 /* Supporting Files */,
 			);
 			path = Blocstagram;
