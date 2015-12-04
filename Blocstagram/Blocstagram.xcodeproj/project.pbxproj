@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-<<<<<<< HEAD
 		431D4B5A1C0509C800BD03A3 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 431D4B591C0509C800BD03A3 /* UserTests.m */; };
-=======
 		43125FE01BFA997700D3429A /* PostCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43125FDF1BFA997700D3429A /* PostCollectionViewCell.m */; };
->>>>>>> assignment-43-filters
 		437AFF811BF1530300105C21 /* CameraToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 437AFF801BF1530300105C21 /* CameraToolbar.m */; };
 		437AFF871BF1581B00105C21 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 437AFF861BF1581B00105C21 /* CameraViewController.m */; };
 		437AFF8A1BF15B3E00105C21 /* UIImage+ImageUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 437AFF891BF15B3E00105C21 /* UIImage+ImageUtilities.m */; };
@@ -72,12 +69,9 @@
 
 /* Begin PBXFileReference section */
 		370C3740C6203857BF098F1A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-<<<<<<< HEAD
 		431D4B591C0509C800BD03A3 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
-=======
 		43125FDE1BFA997700D3429A /* PostCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostCollectionViewCell.h; path = ../PostCollectionViewCell.h; sourceTree = "<group>"; };
 		43125FDF1BFA997700D3429A /* PostCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostCollectionViewCell.m; path = ../PostCollectionViewCell.m; sourceTree = "<group>"; };
->>>>>>> assignment-43-filters
 		437AFF7F1BF1530300105C21 /* CameraToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraToolbar.h; sourceTree = "<group>"; };
 		437AFF801BF1530300105C21 /* CameraToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraToolbar.m; sourceTree = "<group>"; };
 		437AFF851BF1581B00105C21 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
