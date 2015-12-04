@@ -18,6 +18,7 @@
 //(For example, some users are missing fingers, and paraplegic users may be using a stylus in their mouth.)
 
 @property (nonatomic, strong) UITapGestureRecognizer *tap;
+@property (nonatomic, strong) UITapGestureRecognizer *borderTap;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
 
 @end
@@ -36,11 +37,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIWindow *window = [[UIWindow alloc] init];
+    window.frame = [[UIApplication sharedApplication] statusBarFrame];
+    window.windowLevel = UIWindowLevelStatusBar + 10.0f;
+    //window.windowLevel = UIWindowLevelNormal + 10.0f;
+    window.userInteractionEnabled = YES;
+    window.layer.borderWidth = 20.0f;
+    [window makeKeyAndVisible];
+    
+    self.borderTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(borderTapFired:)];
+    
+    [window addGestureRecognizer:self.borderTap];
 
     //create scroll view
     self.scrollView = [UIScrollView new];
     self.scrollView.delegate = self;
-    self.scrollView.backgroundColor = [UIColor whiteColor];
+    self.scrollView.backgroundColor = [UIColor grayColor];
     
     [self.view addSubview:self.scrollView];
     
@@ -53,7 +66,7 @@
     //content view size
     self.scrollView.contentSize = self.media.image.size;
     
-    //initialize tap, doubletap
+    //initialize tap, doubletap, borderTap
     self.tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
     
     self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapFired:)];
@@ -63,7 +76,6 @@
 //    Without this line, it would be impossible to double-tap because the single tap gesture recognizer would fire before the
 //    user had a chance to tap twice.
     [self.tap requireGestureRecognizerToFail:self.doubleTap];
-    
     [self.scrollView addGestureRecognizer:self.tap];
     [self.scrollView addGestureRecognizer:self.doubleTap];
     
@@ -72,6 +84,7 @@
     [shareButton setTitle:@"Share" forState:UIControlStateNormal];
     [shareButton sizeToFit];
     [self.view addSubview:shareButton];
+    
     CGFloat buttonWidth = shareButton.frame.size.width;
     CGFloat buttonHeight = shareButton.frame.size.height;
     shareButton.center = CGPointMake(self.view.bounds.size.width - buttonWidth, buttonHeight);
@@ -137,7 +150,8 @@
 
 #pragma mark - UIScrollViewDelegate
 //tells scroll view which view to zoon in on
-- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
     return self.imageView;
 }
 
@@ -149,11 +163,18 @@
 
 #pragma mark - Gesture Recognizers
 
-- (void) tapFired:(UITapGestureRecognizer *)sender {
+- (void) tapFired:(UITapGestureRecognizer *)sender
+{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void) doubleTapFired:(UITapGestureRecognizer *)sender {
+- (void) borderTapFired:(UITapGestureRecognizer *)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) doubleTapFired:(UITapGestureRecognizer *)sender
+{
     
     if (self.scrollView.zoomScale == self.scrollView.minimumZoomScale)
     {
