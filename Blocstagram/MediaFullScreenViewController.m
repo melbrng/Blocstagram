@@ -39,13 +39,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   // UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    UIWindow *window = [[[UIApplication sharedApplication] delegate]window];
    
-   // window.userInteractionEnabled = YES;
+    [window makeKeyAndVisible];
     self.borderTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(borderTapFired:)];
-     [[[UIApplication sharedApplication] keyWindow] addGestureRecognizer:self.borderTap];
-   // [window addGestureRecognizer:self.borderTap];
-    
+    [window addGestureRecognizer:self.borderTap];
 
     //create scroll view
     self.scrollView = [UIScrollView new];
