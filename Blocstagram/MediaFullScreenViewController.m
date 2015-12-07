@@ -10,7 +10,7 @@
 #import "Media.h"
 #import "AppDelegate.h"
 
-@interface MediaFullScreenViewController () <UIScrollViewDelegate>
+@interface MediaFullScreenViewController () <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 
 
@@ -39,10 +39,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIWindow *window = [[[UIApplication sharedApplication] delegate]window];
+    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
    
     [window makeKeyAndVisible];
-    self.borderTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(borderTapFired:)];
+    self.borderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(borderTapFired:)];
+    self.borderTap.cancelsTouchesInView = NO;
+    self.borderTap.numberOfTapsRequired = 1;
+    self.borderTap.delegate = self;
     [window addGestureRecognizer:self.borderTap];
 
     //create scroll view
@@ -147,6 +150,20 @@
     }
     
     self.imageView.frame = contentsFrame;
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return YES;
 }
 
 #pragma mark - UIScrollViewDelegate
